@@ -9,7 +9,7 @@ import (
 	//"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/database"
 )
 
-// getHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
+//etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	var User UserID 
 	err := json.NewDecoder(r.Body).Decode(&User)
