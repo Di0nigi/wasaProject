@@ -1,0 +1,564 @@
+openapi: 3.0.3
+info:
+  title: WasaPhoto
+  description: |-
+    A photo sharing website to post comment and like yours and yours friends pictures.
+  version: "1"
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:            
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+      
+  schemas:
+    ObjId:
+      title: Object id
+      description: "This object represents the id of an object"
+      type: object
+      properties:
+        idObj:
+          type: string
+          example: ["abcdef012345"]
+          minLength: 1 
+          maxLength: 16
+          pattern: 'ˆ.*?$'
+
+    UserId:
+      title: User id
+      description: "This object represents the user id"
+      type: object
+      properties:
+        idUser:
+          type: string
+          example: ["abcdef012345"]
+          minLength: 3
+          maxLength: 16
+          pattern: 'ˆ.*?$'
+    User:
+      title: User
+      description: 'This object represents a single user'
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/UserId'
+        followers:
+          type: array
+          minItems: 0
+          maxItems: 500
+          items: 
+            $ref : '#/components/schemas/UserId'
+          example: [['abcdef012345','abcdef012378']]
+        follows:
+          type: array
+          minItems: 0
+          maxItems: 500
+          items: 
+            $ref : '#/components/schemas/UserId'
+          example: [['abcdef012345','abcdef012378']]
+        Posts:
+          type: array
+          minItems: 0
+          maxItems: 500
+          items:
+            $ref : '#/components/schemas/ObjId'
+          example: 10
+        blockedArray:
+          type: array
+          minItems: 0
+          maxItems: 500
+          items: 
+            $ref : '#/components/schemas/UserId'
+          example: [['abcdef012345','abcdef012378']]
+        
+ 
+    postedImage:
+      title: Post
+      description: 'This object represents an image posted by a user'
+      type: object
+      properties:
+        idPhoto:
+          $ref : '#/components/schemas/ObjId'
+        owner:
+          $ref : '#/components/schemas/UserId'
+        image:
+          description: 'path to the image'
+          type: string
+          format: binary
+          example: ["0100100010111001"]
+          minLength: 0
+          maxLength: 10000000000000000000
+        likes:
+          type: integer
+          example: 1
+        comments: 
+          type: array
+          minItems: 0
+          maxItems: 500
+          items:
+             $ref: '#/components/schemas/comment'
+        numComments:
+          type: integer
+          example: 1
+          
+    comment:
+      title: Comment
+      description: 'This object represents a comment'
+      type: object
+      properties:
+        idComment:
+          $ref : '#/components/schemas/ObjId'
+        content:
+          type: string
+          minLength: 3
+          maxLength: 500
+          example: ["good picture!"]
+          pattern: 'ˆ.*?$'
+        owner:
+          $ref : '#/components/schemas/UserId'
+        photo:
+          $ref : '#/components/schemas/ObjId'
+    like:
+      title: Like
+      description: 'This object represents a like'
+      type: object
+      properties:
+        idLike:
+          $ref : '#/components/schemas/ObjId'
+        owner: 
+          $ref : '#/components/schemas/UserId'
+        toPhoto: 
+          $ref : '#/components/schemas/ObjId'
+        
+paths:
+  /session:
+    post:
+      tags: ["login"]
+      operationId: doLogin
+      summary: Logs in the user
+      description: |-
+        If the user does not exist, it will be created,
+        and an identifier is returned.
+        If the user exists, the user identifier is returned.
+      requestBody:
+        description: User details
+        content:
+          application/json:
+            schema:
+              $ref : '#/components/schemas/UserId'    
+        required: true
+      responses:
+        '200':
+          description: User log-in action successful
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/UserId'
+                    
+  /{UserId}/userActions:
+    parameters:
+      - name: UserId
+        in: path
+        required: true
+        schema:
+          $ref : '#/components/schemas/UserId'
+          
+    post:
+      tags: ["setUsername"]
+      description: "changes or creates a UserId object"
+      operationId: setMyUserName
+      summary: set your desired username
+      
+      requestBody:
+        description: desired username
+        content:
+          application/json:
+            schema:
+              $ref : '#/components/schemas/UserId'
+              
+        required: true
+      responses:
+        '204':
+          description: Username created succesfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error:
+                  code: bad_request
+                  message: The request is malformed or invalid.
+                  details:
+                    field: name
+                    reason: Username must be at least 3 characters long.
+        
+    get:
+      tags: ["getStream"]
+      operationId: getMyStream
+      summary: returns an array of postedImage
+      responses:
+        '200':
+          description: stream retrieved successfully
+          content:
+            application/json:
+              schema:
+                type : array
+                minItems: 0
+                maxItems: 500
+                items: 
+                  $ref: '#/components/schemas/postedImage'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+        '404':
+            description: Not Found
+            content:
+              application/json:
+                example:
+                  error: "Not Found"
+                  message: "The requested object could not be found"
+                  
+  /{UserId}/userActions/interactions/Profile/{AccountId}:
+    get:
+        tags: ["getUser"]
+        operationId: getUserProfile
+        summary: returns an array of postedImage
+        parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema:
+            $ref : '#/components/schemas/UserId'
+        - name: AccountId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/UserId'
+        responses:
+          '200':
+            description: Uset retrieved successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/User'
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                example:
+                  error: "Bad Request"
+                  message: "The request could not be processed due to invalid data or syntax error"
+          '404':
+            description: Not Found
+            content:
+              application/json:
+                example:
+                  error: "Not Found"
+                  message: "The requested user could not be found"
+          
+  /{UserId}/userActions/interactions/manageBan:
+    post:
+        tags: ["ban"]
+        operationId: banUser
+        description: "bans a user"
+        summary: ban a user from your profile
+        parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema:
+            $ref : '#/components/schemas/UserId'
+        requestBody:
+          description: takes the id of the person you want to ban and adds it to the banned array
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/UserId'
+                
+        responses:
+          '204':
+            description: User Banned
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                example:
+                  error: "Bad Request"
+                  message: "The request could not be processed due to invalid data or syntax error"
+            
+ 
+    put:
+        tags: ["unBan"]
+        operationId: unbanUser
+        description: "unbans a user"
+        summary: unbans a user from your profile
+        parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema:
+            $ref : '#/components/schemas/UserId'
+        requestBody:
+          description: takes the id of the person you want to unBan and removes it from the banned array
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/UserId'
+                
+        responses:
+          '204':
+            description: User Banned
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                example:
+                  error: "Bad Request"
+                  message: "The request could not be processed due to invalid data or syntax error"
+  /{UserId}/userActions/interactions/followingActions:
+    post:
+      tags: ["follow"]
+      operationId: followUser
+      description: "follows a user by id"
+      summary: follows a User
+      parameters:
+      - name: UserId
+        in: path
+        required: true
+        schema: 
+          $ref : '#/components/schemas/UserId'
+      requestBody:
+        description: takes the UserId of a user to follow
+        content:
+          application/json:
+            schema:
+              $ref : '#/components/schemas/UserId'
+        required: true
+      responses:
+        '204':
+          description: User followed
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+    put:
+      tags: ["unfollow"]
+      operationId: unfollowUser
+      description: "unfollows a user by id"
+      summary: unfollows a User
+      parameters:
+      - name: UserId
+        in: path
+        required: true
+        schema: 
+          $ref : '#/components/schemas/UserId'
+      requestBody:
+        description: takes the UserId of a user to unfollow
+        content:
+          application/json:
+            schema:
+              $ref : '#/components/schemas/UserId'
+        required: true
+      responses:
+        '204':
+          description: User unfollowed
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+  /{UserId}/userActions/photoManager:
+    post:
+      tags: ["postImage"]
+      operationId: uploadPhoto
+      description: "posts a postedImage"
+      summary: posts a picture
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/UserId'
+      requestBody:
+        description: uploads a picture using postedImage schema
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/postedImage'
+        required: true
+      responses:
+        '204':
+          description: Post created
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+  /{UserId}/userActions/photoManager/{ObjId}:
+    delete:
+      tags: ["deletePhoto"]
+      operationId: deletePhoto
+      description: "deletes a posted image by id"
+      summary: Deletes a phoyo by id
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/UserId'
+        - name: ObjId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/ObjId'
+      responses:
+        '204':
+          description: Photo deleted successfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+        '404':
+            description: Not Found
+            content:
+              application/json:
+                example:
+                  error: "Not Found"
+                  message: "The image could not be found"
+                  
+  /{UserId}/userActions/interactions/comments:
+    post:
+      tags: ["comment"]
+      operationId: commentPhoto
+      description: "comments a photo"
+      summary: comments a photo 
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/UserId'
+      requestBody:
+        description: takes in a comment object that will be appended to the comment array of specified picture
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+        required: true
+      responses:
+        '204':
+          description: Comment added
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+    put:
+      tags: ["uncomment"]
+      operationId: uncommentPhoto
+      description: "uncomments a photo"
+      summary: uncomments a photo 
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/UserId'
+      requestBody:
+        description: takes in the comment we want to delete
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comment'
+        required: true
+      responses:
+        '204':
+          description: Comment deleted
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+                
+  /{UserId}/userActions/interactions/likes:
+    post:
+      tags: ["likes"]
+      operationId: likePhoto
+      description: "likes a photo"
+      summary: add a like to a photo
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/UserId'
+      requestBody:
+        description: takes in a like object 
+        content:
+          application/json:
+            schema:
+              $ref : '#/components/schemas/like'
+      responses: 
+        '204':
+          description: like added
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+                
+    put:
+      tags: ["likes"]
+      operationId: unlikePhoto
+      description: "unlikes a photo"
+      summary: unlikes  a photo
+      parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/UserId'
+      requestBody:
+        description: takes in a like object we want to delete
+        content:
+          application/json:
+            schema:
+              $ref : '#/components/schemas/like'
+      responses: 
+        '204':
+          description: unliked succesfully
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                error: "Bad Request"
+                message: "The request could not be processed due to invalid data or syntax error"
+  
+  
+      
+   
