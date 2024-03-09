@@ -14,6 +14,8 @@ func (rt *_router) Handler() http.Handler {
 	rt.router.POST("/userActions/:UserId", rt.wrap(rt.setUsername))
 	rt.router.GET("/userActions/:UserId", rt.wrap(rt.getStream))
 
+	rt.router.GET("/userActions/:UserId/interactions/Profile/:AccountId", rt.wrap(rt.getUser))
+
 	// Special routes
 	rt.router.GET("/liveness", rt.liveness)
 
