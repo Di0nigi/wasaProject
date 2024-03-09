@@ -42,6 +42,7 @@ type AppDatabase interface {
 
 	GetUserID(string)(bool,error)
 	CreateUser(string)(error)
+	ChangeUsername(string,string)(error)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)
@@ -84,13 +85,13 @@ func New(db *sql.DB) (AppDatabase, error) {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
 
-	query = `CREATE TABLE IF NOT EXISTS BlockedUsers (tableId INT PRIMARY KEY AUTOINCREMENT, UserId TEXT, BlockedBy TEXT);`
+	query = `CREATE TABLE IF NOT EXISTS BlockedUsers (tableId INTEGER PRIMARY KEY AUTOINCREMENT, UserId TEXT, BlockedBy TEXT);`
 	_, err = db.Exec(query)
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
 
-	query = `CREATE TABLE IF NOT EXISTS Followers (tableId INT PRIMARY KEY AUTOINCREMENT, UserId TEXT, Followedby TEXT);`
+	query = `CREATE TABLE IF NOT EXISTS Followers (tableId INTEGER PRIMARY KEY AUTOINCREMENT, UserId TEXT, Followedby TEXT);`
 	_, err = db.Exec(query)
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)

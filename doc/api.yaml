@@ -159,7 +159,7 @@ paths:
               schema:
                 $ref : '#/components/schemas/UserId'
                     
-  /{UserId}/userActions:
+  /userActions/{UserId}:
     parameters:
       - name: UserId
         in: path
@@ -226,7 +226,7 @@ paths:
                   error: "Not Found"
                   message: "The requested object could not be found"
                   
-  /{UserId}/userActions/interactions/Profile/{AccountId}:
+  /userActions/{UserId}/interactions/Profile/{AccountId}:
     get:
         tags: ["getUser"]
         operationId: getUserProfile
@@ -264,7 +264,7 @@ paths:
                   error: "Not Found"
                   message: "The requested user could not be found"
           
-  /{UserId}/userActions/interactions/manageBan:
+  /userActions/{UserId}/interactions/manageBan:
     post:
         tags: ["ban"]
         operationId: banUser
@@ -323,7 +323,7 @@ paths:
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
-  /{UserId}/userActions/interactions/followingActions:
+  /userActions/{UserId}/interactions/followingActions:
     post:
       tags: ["follow"]
       operationId: followUser
@@ -380,7 +380,7 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-  /{UserId}/userActions/photoManager:
+  /userActions/{UserId}/photoManager:
     post:
       tags: ["postImage"]
       operationId: uploadPhoto
@@ -409,7 +409,7 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-  /{UserId}/userActions/photoManager/{ObjId}:
+  /userActions/{UserId}/photoManager/{ObjId}:
     delete:
       tags: ["deletePhoto"]
       operationId: deletePhoto
@@ -444,7 +444,7 @@ paths:
                   error: "Not Found"
                   message: "The image could not be found"
                   
-  /{UserId}/userActions/interactions/comments:
+  /userActions/{UserId}/interactions/comments:
     post:
       tags: ["comment"]
       operationId: commentPhoto
@@ -502,7 +502,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
                 
-  /{UserId}/userActions/interactions/likes:
+  /userActions/{UserId}/interactions/likes:
     post:
       tags: ["likes"]
       operationId: likePhoto
