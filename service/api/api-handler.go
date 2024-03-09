@@ -12,6 +12,7 @@ func (rt *_router) Handler() http.Handler {
 	rt.router.POST("/session",rt.wrap(rt.logIn))
 	
 	rt.router.POST("/userActions/:UserId", rt.wrap(rt.setUsername))
+	rt.router.GET("/userActions/:UserId", rt.wrap(rt.getStream))
 
 	// Special routes
 	rt.router.GET("/liveness", rt.liveness)

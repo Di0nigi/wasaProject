@@ -10,23 +10,16 @@ import (
 )
 
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
-func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
-	var User UserId
-	err := json.NewDecoder(r.Body).Decode(&User)
-	if err != nil {
+func (rt *_router) getStream(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
+	User := ps.ByName("UserId")
+	err, stream := rt.db.GetAllphotos(User)
+	if err!=nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	ret, err := rt.db.GetUserID(User.IDUser)
-	if !ret{
-		err = rt.db.CreateUser(User.IDUser)
-		if err!= nil{
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-	}
 	w.Header().Set("content-type", "application/json")
-	w.WriteHeader(http.StatusCreated)
-	_ = json.NewEncoder(w).Encode(User)
-	
+	w.WriteHeader(http.StatusOK)
+	_ = json.NewEncoder(w).Encode(stream)
 }
+
+	
