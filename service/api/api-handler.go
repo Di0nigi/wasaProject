@@ -18,6 +18,9 @@ func (rt *_router) Handler() http.Handler {
 
 	rt.router.POST("/userActions/:UserId/interactions/manageBan", rt.wrap(rt.banUser))
 	rt.router.PUT("/userActions/:UserId/interactions/manageBan", rt.wrap(rt.unBanUser))
+
+	rt.router.POST("/userActions/:UserId/interactions/followingActions", rt.wrap(rt.followUser))
+	rt.router.PUT("/userActions/:UserId/interactions/followingActions", rt.wrap(rt.unFollowUser))
 	
 	
 	// Special routes
