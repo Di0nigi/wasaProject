@@ -22,6 +22,7 @@ func (rt *_router) Handler() http.Handler {
 	rt.router.POST("/userActions/:UserId/interactions/followingActions", rt.wrap(rt.followUser))
 	rt.router.PUT("/userActions/:UserId/interactions/followingActions", rt.wrap(rt.unFollowUser))
 	
+	rt.router.POST("/userActions/:UserId/photoManager", rt.wrap(rt.postImage))
 	
 	// Special routes
 	rt.router.GET("/liveness", rt.liveness)
