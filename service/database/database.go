@@ -45,6 +45,8 @@ type AppDatabase interface {
 	ChangeUsername(string,string)(error)
 	GetAllphotos(string)(error,[]PostedImage)
 	GetUserProfile(string)(error,User)
+	AddBlocked(string,string)(error)
+	DelBlocked(string, string)(error)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)

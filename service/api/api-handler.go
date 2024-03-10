@@ -16,6 +16,10 @@ func (rt *_router) Handler() http.Handler {
 
 	rt.router.GET("/userActions/:UserId/interactions/Profile/:AccountId", rt.wrap(rt.getUser))
 
+	rt.router.POST("/userActions/:UserId/interactions/manageBan", rt.wrap(rt.banUser))
+	rt.router.PUT("/userActions/:UserId/interactions/manageBan", rt.wrap(rt.unBanUser))
+	
+	
 	// Special routes
 	rt.router.GET("/liveness", rt.liveness)
 

@@ -315,7 +315,7 @@ paths:
                 
         responses:
           '204':
-            description: User Banned
+            description: User unbanned
           '400':
             description: Bad Request
             content:
@@ -323,6 +323,7 @@ paths:
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
+  
   /userActions/{UserId}/interactions/followingActions:
     post:
       tags: ["follow"]
