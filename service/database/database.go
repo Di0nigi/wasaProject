@@ -54,6 +54,7 @@ type AppDatabase interface {
 	AddComment(string, Comment) (error)
 	DelComment(string, Comment) (error)
 	AddLike(string, Like) (error)
+	DelLike(string, Like) (error)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)

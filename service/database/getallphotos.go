@@ -11,21 +11,21 @@ func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 	
 	for rows.Next() {
 		var currentPost PostedImage
-		err = rows.Scan(&currentPost.IDPhoto,&currentPost.Owner,&currentPost.Image,&currentPost.Likes,&currentPost.NumComments)
+		err = rows.Scan(&currentPost.IDPhoto,&currentPost.Owner.ID,&currentPost.Image,&currentPost.Likes,&currentPost.NumComments)
 		if err != nil {
         	return err, stream
     	}
 		var commArray []Comment
 		var commentsRows *sql.Rows
 		
-		commentsRows, err = db.c.Query("SELECT * FROM Comments WHERE PhotoId=?",currentPost.IDPhoto)
+		commentsRows, err = db.c.Query("SELECT * FROM Comments WHERE PhotoId=?",currentPost.IDPhoto.IDObj)
 		if err != nil {
         	return err, stream
     	}
 
 		for commentsRows.Next(){
 			var currentComment Comment
-			commentsRows.Scan(&currentComment.IDComment,&currentComment.Content,&currentComment.Owner,&currentComment.Photo)
+			commentsRows.Scan(&currentComment.IDComment.IDObj,&currentComment.Content,&currentComment.Owner.ID,&currentComment.Photo.IDObj)
 			commArray=append(commArray,currentComment)
 		}
 		currentPost.Comments=commArray
