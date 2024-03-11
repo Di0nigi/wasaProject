@@ -53,6 +53,7 @@ type AppDatabase interface {
 	DelPost(string,string) (error)
 	AddComment(string, Comment) (error)
 	DelComment(string, Comment) (error)
+	AddLike(string, Like) (error)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)
@@ -107,7 +108,7 @@ func New(db *sql.DB) (AppDatabase, error) {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
 
-	query = `CREATE TABLE IF NOT EXISTS PostedImages (PhotoId TEXT PRIMARY KEY, ownerId TEXT,imageData VARBINARY(100000), likes INT, numComments INT);`
+	query = `CREATE TABLE IF NOT EXISTS PostedImages (PhotoId TEXT PRIMARY KEY, ownerId TEXT,imageData VARBINARY(100000), likes INTEGER, numComments INTEGER);`
 	_, err = db.Exec(query)
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
@@ -118,7 +119,12 @@ func New(db *sql.DB) (AppDatabase, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
-		
+	
+	query = `CREATE TABLE IF NOT EXISTS Likes (LikeId TEXT PRIMARY KEY, ownerId TEXT, PhotoId TEXT);`
+	_, err = db.Exec(query)
+	if err != nil {
+		return nil, fmt.Errorf("error creating database structure: %w", err)
+	}
 
 
 	return &appdbimpl{

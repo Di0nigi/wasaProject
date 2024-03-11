@@ -28,6 +28,8 @@ func (rt *_router) Handler() http.Handler {
 
 	rt.router.POST("/userActions/:UserId/interactions/comments", rt.wrap(rt.commentPhoto))
 	rt.router.PUT("/userActions/:UserId/interactions/comments", rt.wrap(rt.unCommentPhoto))
+
+	rt.router.POST("/userActions/:UserId/interactions/likes",rt.wrap(rt.likePost))
 	
 	// Special routes
 	rt.router.GET("/liveness", rt.liveness)
