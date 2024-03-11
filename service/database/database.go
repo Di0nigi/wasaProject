@@ -51,6 +51,8 @@ type AppDatabase interface {
 	DelFollower(string, string)(error)
 	AddPost(string, PostedImage)(error)
 	DelPost(string,string) (error)
+	AddComment(string, Comment) (error)
+	DelComment(string, Comment) (error)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)
