@@ -22,6 +22,7 @@ func (rt *_router) banUser(w http.ResponseWriter, r *http.Request, ps httprouter
 
 	if err!= nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
+		
 		return
 	}
 

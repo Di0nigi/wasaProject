@@ -1,5 +1,7 @@
 package database
 
+//import "fmt"
+
 
 func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	var user User
@@ -15,8 +17,10 @@ func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	}
 
 	for rows.Next(){
+		var us string
 		var follower UserId
-		rows.Scan(&follower)
+		rows.Scan(&us)
+		follower.IDUser=us
 		followers=append(followers,follower)
 	}
 	user.Followers=followers
@@ -29,7 +33,9 @@ func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	}
 	for rows.Next(){
 		var followed UserId
-		rows.Scan(&followed)
+		var use string
+		rows.Scan(&use)
+		followed.IDUser=use
 		follows=append(follows,followed)
 	}
 	user.Follows=follows
@@ -37,9 +43,12 @@ func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	var blocked []UserId
 	rows, err = db.c.Query("SELECT UserId FROM BlockedUsers WHERE BlockedBy=?",id)
 	for rows.Next(){
-		var blockeduser UserId
+		var blockeduser string
+		var blkUser  UserId
+
 		rows.Scan(&blockeduser)
-		blocked=append(blocked,blockeduser)
+		blkUser.IDUser=blockeduser
+		blocked=append(blocked,blkUser)
 	}
 	user.BlockedArray=blocked
 

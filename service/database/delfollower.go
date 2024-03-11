@@ -1,7 +1,10 @@
 package database
 
+import "fmt"
 
 func (db *appdbimpl) DelFollower(follow string , followedby string ) (error) {
-	_, err := db.c.Exec("DELETE FROM Followers WHERE UserId = ? AND FollowedBy = ?", follow, followedby)
+	fmt.Printf(follow)
+	_, err := db.c.Exec("DELETE FROM Followers WHERE UserId = ? AND Followedby = ?", follow, followedby)
+	//fmt.Printf(err)
 	return err
 }
