@@ -11,7 +11,7 @@ func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 	
 	for rows.Next() {
 		var currentPost PostedImage
-		err = rows.Scan(&currentPost.IDPhoto,&currentPost.Owner.ID,&currentPost.Image,&currentPost.Likes,&currentPost.NumComments)
+		err = rows.Scan(&currentPost.IDPhoto,&currentPost.Owner.IDUser,&currentPost.Image,&currentPost.Likes,&currentPost.NumComments)
 		if err != nil {
         	return err, stream
     	}
@@ -25,7 +25,7 @@ func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 
 		for commentsRows.Next(){
 			var currentComment Comment
-			commentsRows.Scan(&currentComment.IDComment.IDObj,&currentComment.Content,&currentComment.Owner.ID,&currentComment.Photo.IDObj)
+			commentsRows.Scan(&currentComment.IDComment.IDObj,&currentComment.Content,&currentComment.Owner.IDUser,&currentComment.Photo.IDObj)
 			commArray=append(commArray,currentComment)
 		}
 		currentPost.Comments=commArray

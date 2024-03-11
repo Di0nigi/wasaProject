@@ -27,6 +27,7 @@ func (rt *_router) setUsername(w http.ResponseWriter, r *http.Request, ps httpro
 	}
 	w.WriteHeader(http.StatusNoContent)
     w.Write([]byte("Username created successfully"))
+	return
 	
 
 
