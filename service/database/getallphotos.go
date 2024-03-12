@@ -1,6 +1,8 @@
 package database
 import (
-	"database/sql")
+	"database/sql";
+"fmt"
+)
 
 func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 	var stream []PostedImage
@@ -16,19 +18,23 @@ func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
         	return err, stream
     	}
 		var commArray []Comment
-		var commentsRows *sql.Rows
+		//var commentsRows *sql.Rows
 		
-		commentsRows, err = db.c.Query("SELECT * FROM Comments WHERE PhotoId=?",currentPost.IDPhoto.IDObj)
-		if err != nil {
+		commentsRows, errs := db.c.Query("SELECT * FROM Comments WHERE ownerId = ?",id)
+		if errs != nil {
         	return err, stream
     	}
+		
 
 		for commentsRows.Next(){
 			var currentComment Comment
 			commentsRows.Scan(&currentComment.IDComment.IDObj,&currentComment.Content,&currentComment.Owner.IDUser,&currentComment.Photo.IDObj)
+			fmt.Printf(currentComment.Content)
 			commArray=append(commArray,currentComment)
 		}
 		currentPost.Comments=commArray
+		//fmt.Printf(err)
+		//fmt.Printf(commArray[0].Content)
 
 		stream=append(stream,currentPost)
 

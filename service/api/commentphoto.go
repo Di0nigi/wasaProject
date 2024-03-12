@@ -4,6 +4,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	//"fmt"
 	
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/api/reqcontext"
 	"github.com/julienschmidt/httprouter"
@@ -23,6 +24,7 @@ func (rt *_router) commentPhoto(w http.ResponseWriter, r *http.Request, ps httpr
 		return
 	}
 	err= rt.db.AddComment(id,comm)
+	//mt.Printf(err.Error())
 	if err!=nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
