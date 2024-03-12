@@ -13,7 +13,7 @@ func (db *appdbimpl) DelLike(user string , lk Like ) (error) {
 		return err
 	}
 	nLike-=1
-	_, err = db.c.Exec("UPDATE PostedImages SET numComments = ? WHERE PhotoId = ?", nLike, lk.ToPhoto.IDObj)
+	_, err = db.c.Exec("UPDATE PostedImages SET likes = ? WHERE PhotoId = ?", nLike, lk.ToPhoto.IDObj)
 
 	return err
 }
