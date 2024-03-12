@@ -294,8 +294,8 @@ paths:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
             
- 
-    put:
+  /userActions/{UserId}/interactions/manageBan/{banned}:
+    delete:
         tags: ["unBan"]
         operationId: unbanUser
         description: "unbans a user"
@@ -306,12 +306,11 @@ paths:
           required: true
           schema:
             $ref : '#/components/schemas/UserId'
-        requestBody:
-          description: takes the id of the person you want to unBan and removes it from the banned array
-          content:
-            application/json:
-              schema:
-                $ref : '#/components/schemas/UserId'
+        - name: banned
+          in: path
+          required: true
+          schema:
+            $ref : '#/components/schemas/UserId'
                 
         responses:
           '204':
@@ -353,7 +352,8 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-    put:
+  /userActions/{UserId}/interactions/followingActions/{follower}:
+    delete:
       tags: ["unfollow"]
       operationId: unfollowUser
       description: "unfollows a user by id"
@@ -364,13 +364,12 @@ paths:
         required: true
         schema: 
           $ref : '#/components/schemas/UserId'
-      requestBody:
-        description: takes the UserId of a user to unfollow
-        content:
-          application/json:
-            schema:
-              $ref : '#/components/schemas/UserId'
+      - name: follower
+        in: path
         required: true
+        schema: 
+          $ref : '#/components/schemas/UserId'
+      
       responses:
         '204':
           description: User unfollowed
@@ -445,7 +444,7 @@ paths:
                   error: "Not Found"
                   message: "The image could not be found"
                   
-  /userActions/{UserId}/interactions/comments:
+  /userActions/{UserId}/interactions/{photo}/comments:
     post:
       tags: ["comment"]
       operationId: commentPhoto
@@ -457,6 +456,11 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
+        - name: photo
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/ObjId'
       requestBody:
         description: takes in a comment object that will be appended to the comment array of specified picture
         content:
@@ -474,7 +478,8 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-    put:
+  /userActions/{UserId}/interactions/{photo}/comments/{commentId}:
+    delete:
       tags: ["uncomment"]
       operationId: uncommentPhoto
       description: "uncomments a photo"
@@ -485,13 +490,17 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
-      requestBody:
-        description: takes in the comment we want to delete
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/comment'
-        required: true
+        - name: commentId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/ObjId'
+        - name: photo
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/ObjId'
+     
       responses:
         '204':
           description: Comment deleted
@@ -503,7 +512,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/likes:
+  /userActions/{UserId}/interactions/{photo}/likes:
     post:
       tags: ["likes"]
       operationId: likePhoto
@@ -515,6 +524,11 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
+        - name: photo
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/ObjId'
       requestBody:
         description: takes in a like object 
         content:
@@ -532,7 +546,8 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
                 
-    put:
+  /userActions/{UserId}/interactions/{photo}/likes/{likeId}:
+    delete:
       tags: ["likes"]
       operationId: unlikePhoto
       description: "unlikes a photo"
@@ -543,12 +558,16 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
-      requestBody:
-        description: takes in a like object we want to delete
-        content:
-          application/json:
-            schema:
-              $ref : '#/components/schemas/like'
+        - name: photo
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/ObjId'
+        - name: likeId
+          in: path
+          required: true
+          schema: 
+            $ref : '#/components/schemas/ObjId'
       responses: 
         '204':
           description: unliked succesfully
@@ -560,6 +579,3 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
   
-  
-      
-   

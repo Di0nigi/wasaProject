@@ -17,20 +17,24 @@ func (rt *_router) Handler() http.Handler {
 	rt.router.GET("/userActions/:UserId/interactions/Profile/:AccountId", rt.wrap(rt.getUser))
 
 	rt.router.POST("/userActions/:UserId/interactions/manageBan", rt.wrap(rt.banUser))
-	rt.router.PUT("/userActions/:UserId/interactions/manageBan", rt.wrap(rt.unBanUser))
+
+	rt.router.DELETE("/userActions/:UserId/interactions/manageBan/:banned", rt.wrap(rt.unBanUser))
 
 	rt.router.POST("/userActions/:UserId/interactions/followingActions", rt.wrap(rt.followUser))
-	rt.router.PUT("/userActions/:UserId/interactions/followingActions", rt.wrap(rt.unFollowUser))
+	
+	rt.router.DELETE("/userActions/:UserId/interactions/followingActions/:followers", rt.wrap(rt.unFollowUser))
 	
 	rt.router.POST("/userActions/:UserId/photoManager", rt.wrap(rt.postImage))
 
 	rt.router.DELETE("/userActions/:UserId/photoManager/:ObjId", rt.wrap(rt.deleteImage))
 
 	rt.router.POST("/userActions/:UserId/interactions/comments", rt.wrap(rt.commentPhoto))
-	rt.router.PUT("/userActions/:UserId/interactions/comments", rt.wrap(rt.unCommentPhoto))
+	
+	rt.router.DELETE("/userActions/:UserId/interactions/comments/:photo/:commentId", rt.wrap(rt.unCommentPhoto))
 
 	rt.router.POST("/userActions/:UserId/interactions/likes",rt.wrap(rt.likePost))
-	rt.router.PUT("/userActions/:UserId/interactions/likes",rt.wrap(rt.unLikePost))
+
+	rt.router.DELETE("/userActions/:UserId/interactions/likes/:photo/:likeId",rt.wrap(rt.unLikePost))
 	
 	
 	// Special routes

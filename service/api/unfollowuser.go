@@ -2,7 +2,7 @@ package api
 
 
 import (
-	"encoding/json"
+	//"encoding/json"
 	"net/http"
 	
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/api/reqcontext"
@@ -12,15 +12,11 @@ import (
 
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) unFollowUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
-	var toUnFollow UserId
+	toUnFollow :=ps.ByName("follower")
 	id:=ps.ByName("UserId")
-	err := json.NewDecoder(r.Body).Decode(&toUnFollow)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
+	
 
-	err = rt.db.DelFollower(toUnFollow.IDUser,id)
+	err := rt.db.DelFollower(toUnFollow,id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

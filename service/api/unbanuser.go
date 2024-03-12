@@ -1,7 +1,7 @@
 package api
 
 import (
-	"encoding/json"
+	//"encoding/json"
 	"net/http"
 	
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/api/reqcontext"
@@ -10,14 +10,10 @@ import (
 )
 
 func (rt *_router) unBanUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
-	var bannedUser UserId
+	bannedUser :=ps.ByName("banned")
 	id:=ps.ByName("UserId")
-	err := json.NewDecoder(r.Body).Decode(&bannedUser)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}
-	err = rt.db.DelBlocked(bannedUser.IDUser,id)
+	
+	err := rt.db.DelBlocked(bannedUser,id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
