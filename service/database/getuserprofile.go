@@ -56,7 +56,9 @@ func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	rows, err = db.c.Query("SELECT PhotoId FROM PostedImages WHERE ownerId=?",id)
 	for rows.Next(){
 		var post ObjId
-		rows.Scan(&post)
+		var stPost string
+		rows.Scan(&stPost)
+		post.IDObj=stPost
 		posts=append(posts,post)
 	}
 	user.Posts=posts

@@ -11,7 +11,7 @@ func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 	
 	for rows.Next() {
 		var currentPost PostedImage
-		err = rows.Scan(&currentPost.IDPhoto,&currentPost.Owner.IDUser,&currentPost.Image,&currentPost.Likes,&currentPost.NumComments)
+		err = rows.Scan(&currentPost.IDPhoto.IDObj,&currentPost.Owner.IDUser,&currentPost.Image,&currentPost.Likes,&currentPost.NumComments)
 		if err != nil {
         	return err, stream
     	}
