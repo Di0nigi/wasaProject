@@ -13,7 +13,7 @@ import (
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) unCommentPhoto(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	comm :=ps.ByName("commentId")
-	id:=ps.ByName("UserId")
+	id:=ctx.User
 	ph:=ps.ByName("photo")
 	
 	
@@ -24,7 +24,11 @@ func (rt *_router) unCommentPhoto(w http.ResponseWriter, r *http.Request, ps htt
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
-    w.Write([]byte("Comment deleted"))
-	return
+    _, err=w.Write([]byte("Comment deleted"))
+	if err!= nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		
+		return
+	}
 
 }	

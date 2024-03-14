@@ -444,7 +444,7 @@ paths:
                   error: "Not Found"
                   message: "The image could not be found"
                   
-  /userActions/{UserId}/interactions/{photo}/comments:
+  /userActions/{UserId}/interactions/comments:
     post:
       tags: ["comment"]
       operationId: commentPhoto
@@ -456,11 +456,6 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
-        - name: photo
-          in: path
-          required: true
-          schema: 
-            $ref : '#/components/schemas/ObjId'
       requestBody:
         description: takes in a comment object that will be appended to the comment array of specified picture
         content:
@@ -478,7 +473,7 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-  /userActions/{UserId}/interactions/{photo}/comments/{commentId}:
+  /userActions/{UserId}/interactions/comments/{photo}/{commentId}:
     delete:
       tags: ["uncomment"]
       operationId: uncommentPhoto
@@ -512,7 +507,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/{photo}/likes:
+  /userActions/{UserId}/interactions/likes:
     post:
       tags: ["likes"]
       operationId: likePhoto
@@ -524,11 +519,6 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
-        - name: photo
-          in: path
-          required: true
-          schema: 
-            $ref : '#/components/schemas/ObjId'
       requestBody:
         description: takes in a like object 
         content:
@@ -546,7 +536,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/{photo}/likes/{likeId}:
+  /userActions/{UserId}/interactions/likes/{photo}/{likeId}:
     delete:
       tags: ["likes"]
       operationId: unlikePhoto

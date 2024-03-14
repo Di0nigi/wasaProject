@@ -15,7 +15,7 @@ import (
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) commentPhoto(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	var comm database.Comment
-	id:=ps.ByName("UserId")
+	id:=ctx.User
 	
 
 	err := json.NewDecoder(r.Body).Decode(&comm)
@@ -31,6 +31,11 @@ func (rt *_router) commentPhoto(w http.ResponseWriter, r *http.Request, ps httpr
 
 	}
 	w.WriteHeader(http.StatusNoContent)
-    w.Write([]byte("Comment added"))
-	return
+    _, err= w.Write([]byte("Comment added"))
+	if err!= nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		
+		return
+	}
+
 }

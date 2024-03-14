@@ -12,7 +12,7 @@ import (
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) followUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	var toFollow UserId
-	id:=ps.ByName("UserId")
+	id:=ctx.User
 	err := json.NewDecoder(r.Body).Decode(&toFollow)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -26,7 +26,12 @@ func (rt *_router) followUser(w http.ResponseWriter, r *http.Request, ps httprou
 	}
 
 	w.WriteHeader(http.StatusNoContent)
-    w.Write([]byte("User followed"))
-	return
+	_, err= w.Write([]byte("User followed"))
+	if err!= nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		
+		return
+	}
+	
 
 }

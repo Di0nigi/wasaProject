@@ -11,7 +11,7 @@ import (
 
 func (rt *_router) unBanUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	bannedUser :=ps.ByName("banned")
-	id:=ps.ByName("UserId")
+	id:=ctx.User
 	
 	err := rt.db.DelBlocked(bannedUser,id)
 	if err != nil {
@@ -19,6 +19,11 @@ func (rt *_router) unBanUser(w http.ResponseWriter, r *http.Request, ps httprout
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
-    w.Write([]byte("User unbanned"))
-	return
+    _, err=w.Write([]byte("User unbanned"))
+	if err!= nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		
+		return
+	}
+	
 }

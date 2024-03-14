@@ -13,7 +13,7 @@ import (
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) postImage(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	var post database.PostedImage
-	id:=ps.ByName("UserId")
+	id:=ctx.User
 
 	err := json.NewDecoder(r.Body).Decode(&post)
 	if err != nil {
@@ -28,5 +28,4 @@ func (rt *_router) postImage(w http.ResponseWriter, r *http.Request, ps httprout
 	}
 	w.WriteHeader(http.StatusNoContent)
     w.Write([]byte("Post created"))
-	return
 }

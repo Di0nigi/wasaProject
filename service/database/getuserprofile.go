@@ -19,9 +19,15 @@ func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	for rows.Next(){
 		var us string
 		var follower UserId
-		rows.Scan(&us)
+		err=rows.Scan(&us)
+		if err!=nil{
+			return err, user
+		}
 		follower.IDUser=us
 		followers=append(followers,follower)
+	}
+	if err = rows.Err(); err != nil {
+		return err, user
 	}
 	user.Followers=followers
 	
@@ -34,9 +40,15 @@ func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	for rows.Next(){
 		var followed UserId
 		var use string
-		rows.Scan(&use)
+		err=rows.Scan(&use)
+		if err!=nil{
+			return err, user
+		}
 		followed.IDUser=use
 		follows=append(follows,followed)
+	}
+	if err = rows.Err(); err != nil {
+		return err, user
 	}
 	user.Follows=follows
 
@@ -46,22 +58,36 @@ func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 		var blockeduser string
 		var blkUser  UserId
 
-		rows.Scan(&blockeduser)
+		err=rows.Scan(&blockeduser)
+		if err!=nil{
+			return err, user
+		}
 		blkUser.IDUser=blockeduser
 		blocked=append(blocked,blkUser)
 	}
+	if err = rows.Err(); err != nil {
+		return err, user
+	}
 	user.BlockedArray=blocked
+	
 
 	var posts []ObjId
 	rows, err = db.c.Query("SELECT PhotoId FROM PostedImages WHERE ownerId=?",id)
 	for rows.Next(){
 		var post ObjId
 		var stPost string
-		rows.Scan(&stPost)
+		err =rows.Scan(&stPost)
+		if err!=nil{
+			return err, user
+		}
 		post.IDObj=stPost
 		posts=append(posts,post)
 	}
+	if err = rows.Err(); err != nil {
+		return err, user
+	}
 	user.Posts=posts
+	
 
 	return err, user
 }

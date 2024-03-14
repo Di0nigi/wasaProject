@@ -13,7 +13,7 @@ import (
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) unLikePost(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	lk := ps.ByName("likeId")
-	id := ps.ByName("UserId")
+	id:=ctx.User
 	ph:= ps.ByName("photo")
 	
 	err := rt.db.DelLike(id, lk,ph)
@@ -23,6 +23,11 @@ func (rt *_router) unLikePost(w http.ResponseWriter, r *http.Request, ps httprou
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
-    w.Write([]byte("unliked succesfully"))
-	return
+    _, err=w.Write([]byte("unliked succesfully"))
+	if err!= nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		
+		return
+	}
+	
 }

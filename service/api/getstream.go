@@ -11,7 +11,7 @@ import (
 
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) getStream(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
-	User := ps.ByName("UserId")
+	User:=ctx.User
 	err, stream := rt.db.GetAllphotos(User)
 	if err!=nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)
