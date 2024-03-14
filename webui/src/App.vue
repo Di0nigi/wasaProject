@@ -13,7 +13,15 @@ export default {}
 
 <style>
 .container{
-	height: 100vh;
-	width: 100vw;
+	display: flex;
+  	justify-content: center;
+  	align-items: center;
+  	height: 100vh;
+  	width: 100vw;
+	margin: 0;
+	flex-shrink: 0;
+	max-width: 2000px; 
+	
+	 
 }
 </style>
