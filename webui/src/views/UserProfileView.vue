@@ -5,6 +5,9 @@
       <p class="name">{{ "Username: "+profilename }}</p>
       <p class="follower">{{ "Followers: "+followers }}</p>
       <p class="followed">{{ "Follows: "+followed }}</p>
+      <div v-for="(item, index) in stack" :key="index" class="stack-item">
+      {{ item }}
+      </div>
     </div>
 
   </div>
@@ -40,6 +43,7 @@ import { User } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      stack:[],
       followers:10,
       followed:10,
       profilename: 'EO',
@@ -54,14 +58,19 @@ export default {
   methods: {
     async fetchProfileData() {
       try {
-        const response = await this.$axios.get("/userActions/"+this.username+"/interactions/Profile/"+this.user);
+        const response = await this.$axios.get("/userActions/"+this.username+"/interactions/Profile/"+this.user, { headers: {"Authorization" : this.username}});
         console.log(response.data);
         //this.profileData.id = response.data.id.userId*/
         this.profilename =response.data.id.idUser;
         if (response.data.followers==null){
           this.followers=0;
         }
-        else{this.followers= response.data.followers.length;}
+        else{
+          this.followers= response.data.followers.length;
+        for (let i=0; i<response.data.followers.length; i++){
+          this.stack.push(response.data.followers[i].idUser)
+        }
+        }
         
         if (response.data.follows==null){
           this.followed=0;
