@@ -5,8 +5,8 @@ package database
 
 func (db *appdbimpl) GetUserProfile(id string) (error, User) {
 	var user User
-
 	var userid UserId
+	
 	userid.IDUser=id
 	user.ID=userid
 
