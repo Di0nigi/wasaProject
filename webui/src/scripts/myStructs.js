@@ -28,6 +28,13 @@ export class slideShowim{
       this.url = url;
     }
   }
+  export class dispComment{
+    constructor(owner, content) {
+      this.owner = owner;
+      this.content = content;
+    }
+  }
+
   
   // PostedImage struct equivalent in JavaScript
   class PostedImage {

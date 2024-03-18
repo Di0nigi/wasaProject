@@ -25,11 +25,10 @@ func (rt *_router) likePost(w http.ResponseWriter, r *http.Request, ps httproute
 	}
 	w.WriteHeader(http.StatusNoContent)
     _, err=w.Write([]byte("like added"))
-	if err!= nil {
+/*	if err!= nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
-		
 		return
-	}
+	}*/
 
 
 }

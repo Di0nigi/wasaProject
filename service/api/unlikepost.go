@@ -16,7 +16,7 @@ func (rt *_router) unLikePost(w http.ResponseWriter, r *http.Request, ps httprou
 	id:=ctx.User
 	ph:= ps.ByName("photo")
 	
-	err := rt.db.DelLike(id, lk,ph)
+	err := rt.db.DelLike(id,lk,ph)
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -24,10 +24,10 @@ func (rt *_router) unLikePost(w http.ResponseWriter, r *http.Request, ps httprou
 	}
 	w.WriteHeader(http.StatusNoContent)
     _, err=w.Write([]byte("unliked succesfully"))
-	if err!= nil {
+	/*if err!= nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		
 		return
-	}
+	}*/
 	
 }
