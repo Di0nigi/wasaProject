@@ -25,7 +25,8 @@ func (rt *_router) Handler() http.Handler {
 	rt.router.DELETE("/userActions/:UserId/interactions/followingActions/:followers", rt.wrap(rt.unFollowUser))
 	
 	rt.router.POST("/userActions/:UserId/photoManager", rt.wrap(rt.postImage))
-
+	
+	rt.router.GET("/userActions/:UserId/photoManager/:ObjId", rt.wrap(rt.getImage))
 	rt.router.DELETE("/userActions/:UserId/photoManager/:ObjId", rt.wrap(rt.deleteImage))
 
 	rt.router.POST("/userActions/:UserId/interactions/comments", rt.wrap(rt.commentPhoto))

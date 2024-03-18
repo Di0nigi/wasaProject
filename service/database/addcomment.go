@@ -1,7 +1,10 @@
 package database
 
+import "fmt"
 
 func (db *appdbimpl) AddComment(user string, comm Comment ) (error) {
+	
+	fmt.Printf(user+" ")
 	_, err := db.c.Exec("INSERT INTO Comments (CommentId, ownerId, content, PhotoId) VALUES (?, ?, ?, ?)",comm.IDComment.IDObj, user, comm.Content, comm.Photo.IDObj)
 	if err!=nil{
 		return err

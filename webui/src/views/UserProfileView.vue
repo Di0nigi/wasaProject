@@ -17,7 +17,9 @@
 
     <div class="photo-stack">
             <div class="photo-container" v-for="(photo, index) in stack" :key="index">
-              <img :src=photo alt="Uploadedphoto">
+              <button class="buttonIm" @click="toComm(photo.id)" >
+                <img :src=photo.url alt="Uploadedphoto">
+              </button>
             </div> 
     </div>
   </div>
@@ -81,7 +83,7 @@
 </style>
 
 <script>
-import { User } from '../scripts/myStructs.js';
+import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
@@ -94,7 +96,6 @@ export default {
       followers:10,
       followed:10,
       profilename: 'EO',
-      profileData: User,
       user: localStorage.getItem('username').replace('"', '').replace('"', ''),
     };
   },
@@ -103,14 +104,14 @@ export default {
 
   },
   methods: {
+    toComm(photoName){
+      console.log("clicked");
+      this.$router.push({path: '/'+this.user+'/profile/'+photoName})
+
+    },
     openFileInput() {
       // Simulate click event on file input
       this.$refs.fileInput.click();
-    },
-    toPost(){
-      console.log("clicked");
-      /*this.$router.push({path: '/'+this.user+'/profile'+this.})*/
-
     },
     handleFileUpload(event) {
       this.file = event.target.files[0];
@@ -187,7 +188,8 @@ export default {
             try{
             /*var ur=new Blob([response3.data[i].image], { type: 'image/png' });
             var decodedImageUrl = URL.createObjectURL(ur);*/
-            this.stack.push(response3.data[i].image);
+            var im= new slideShowim(response3.data[i].idPhoto.idObj,response3.data[i].image);
+            this.stack.push(im);
             }
             catch (error) {
         console.error("Error fetching profile data:", error);

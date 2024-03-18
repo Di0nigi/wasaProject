@@ -10,6 +10,10 @@ func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 	var err error
 
 	rows, err = db.c.Query("SELECT * FROM PostedImages WHERE ownerId=?",id)
+
+	if err != nil {
+		return err, stream
+	}
 	
 	for rows.Next() {
 		var currentPost PostedImage
@@ -27,7 +31,7 @@ func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 		
 		for commentsRows.Next(){
 			var currentComment Comment
-			err =commentsRows.Scan(&currentComment.IDComment.IDObj,&currentComment.Content,&currentComment.Owner.IDUser,&currentComment.Photo.IDObj)
+			err =commentsRows.Scan(&currentComment.IDComment.IDObj,&currentComment.Owner.IDUser,&currentComment.Content,&currentComment.Photo.IDObj)
 			if err != nil {
 				return err, stream
 			}

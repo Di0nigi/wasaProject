@@ -22,6 +22,12 @@ export class User {
       this.blockedArray = blockedArray.map(id => new UserId(id)); // Array of UserId objects
     }
   }
+export class slideShowim{
+    constructor(id, url) {
+      this.id = id;
+      this.url = url;
+    }
+  }
   
   // PostedImage struct equivalent in JavaScript
   class PostedImage {
