@@ -1,35 +1,48 @@
 <template>
-
-  <div class="container">
-    <div class="userinfo">
-      <p class="name">{{ "Username: "+profilename }}</p>
-      <p class="follower">{{ "Followers: "+followers }}</p>
-      <p class="followed">{{ "Follows: "+followed }}</p>
-    </div>
-      
-    <div class="photoUp">
-<input type="file" @change="handleFileUpload" ref="fileInput" accept="image/*">
-  <button @click="uploadPhoto">Upload</button>
-    <div class="photo">
-      <div class="photo-stack">
-          <div class="photo-container" v-for="(photo, index) in stack" :key="index">
-            <img :src=photo alt="Uploadedphoto">
-          </div>
-    
+  <div class="layout">
+    <div class="container">
+      <div class="userinfo">
+        <p class="name">{{ "Username: "+profilename }}</p>
+        <p class="follower">{{ "Followers: "+followers }}</p>
+        <p class="followed">{{ "Follows: "+followed }}</p>
       </div>
-
     </div>
-  </div>
+
+    <div class="photoUp">
+        <input type="file" @change="handleFileUpload" ref="fileInput" accept="image/*" style="display: none;">
+        <button @click="openFileInput">Choose File</button>
+        <button @click="uploadPhoto">Upload</button>
+        <div class="photo"></div>
+    </div>
+
+    <div class="photo-stack">
+            <div class="photo-container" v-for="(photo, index) in stack" :key="index">
+              <img :src=photo alt="Uploadedphoto">
+            </div> 
+    </div>
   </div>
 
 
 </template>
 
 <style>
-.container {
+.layout{
+  position: relative;
   height: 100vh;
   width: 100vw;
   background-color: rgba(71, 38, 77,100);
+
+}
+.photoUp{
+  position: absolute;
+  right:0;
+  top:0;
+  background-color: rgba(255,255,255,100);
+}
+.container {
+  height: 100vh;
+  width: 100vw;
+  
 }
 .userinfo{
   position: absolute;
@@ -47,9 +60,14 @@
   color: rgba(255, 255, 255,100);
 }
 .photo-stack {
-  width: 100%;
-  max-height: 300px; /* Adjust the maximum height as needed */
+  padding-top: 20px;
+  max-height: 500px;
+  max-width: 400px;
   overflow-y: auto; /* Enable vertical scrolling */
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, -10%);
 }
 
 .photo-container {
@@ -57,8 +75,7 @@
 }
 
 .photo-container img {
-  width: 100%;
-  height: auto;
+  width:100%;
 }
 
 </style>
@@ -86,6 +103,15 @@ export default {
 
   },
   methods: {
+    openFileInput() {
+      // Simulate click event on file input
+      this.$refs.fileInput.click();
+    },
+    toPost(){
+      console.log("clicked");
+      /*this.$router.push({path: '/'+this.user+'/profile'+this.})*/
+
+    },
     handleFileUpload(event) {
       this.file = event.target.files[0];
       console.log(this.file);

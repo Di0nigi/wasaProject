@@ -7,6 +7,7 @@ const router = createRouter({
 	routes: [
 		{path: '/', component: LoginView},
 		{path: '/:userId/profile', component: UserProfileView},
+		//{path: '/:userId/profil/:photoId', component: PostedImageView},
 		//{path: '/link1', component: HomeView},
 		//{path: '/link2', component: HomeView},
 		//{path: '/some/:id/link', component: HomeView},
