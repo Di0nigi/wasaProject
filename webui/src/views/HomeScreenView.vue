@@ -71,7 +71,7 @@ export default {
 
 }
 .warning{
-  color: rgba(255,255,255,0);
+  color: rgba(255,255,255,100);
 }
 
 </style>

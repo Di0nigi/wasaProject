@@ -12,7 +12,7 @@ import (
 
 //etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
 func (rt *_router) unFollowUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
-	toUnFollow :=ps.ByName("follower")
+	toUnFollow :=ps.ByName("followers")
 	id:=ctx.User
 	
 
@@ -23,12 +23,12 @@ func (rt *_router) unFollowUser(w http.ResponseWriter, r *http.Request, ps httpr
 	}
 	w.WriteHeader(http.StatusNoContent)
     _, err=w.Write([]byte("User unfollowed"))
-	if err!= nil {
+	/*if err!= nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		
 		return
 	}
-
+*/
 
 
 }

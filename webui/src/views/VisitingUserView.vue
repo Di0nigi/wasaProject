@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="follow">
-      <button class="followBt" @click="toFollow">{{ followState }}</button>
+      <button class="followBt" @click="toFollow" :style="btModel" :key="btKey">{{ followState }}</button>
 
     </div>
 
@@ -75,10 +75,10 @@
   position:absolute;
   right:0;
   top:0;
-  
 }
 .followBt{
-  background-color: rgba(0,255,0,100);
+
+  color: rgba(0,255,0,100);
   width:15vw;
   height:10vh;
 }
@@ -90,7 +90,9 @@ import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
-      followState: "Follow",
+      btKey: 0,
+      followVal:true,
+      followState: "",
       randomString: "1",
       binaryIm:"10",
       file: null,
@@ -108,10 +110,42 @@ export default {
     this.fetchProfileData();
   },
   methods: {
-    toFollow(){
-      let response9 = this.$axios.post("/userActions/"+this.user+"/interactions/followingActions", JSON.stringify({idUser: this.profileId}),{ headers: {"Authorization" : this.user}})
-      console.log(response9);
+    async checkFollow(){
+      try{
+      const response4 = await this.$axios.get("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId, { headers: {"Authorization" : this.user}});
+      console.log(response4);
+      this.followVal=false;
+      console.log("triggered");
+     /* console.log(this.followVal);*/
+      
+      }
+      catch(error){
+        console.log("triggered by err");
+        this.followVal=true;
+      }
 
+
+    },
+    async toFollow(){
+      await this.checkFollow();
+      console.log("in bt: "+this.followVal)
+      
+      
+      if (this.followVal==true){
+        let response9 = await this.$axios.post("/userActions/"+this.user+"/interactions/followingActions", JSON.stringify({idUser: this.profileId}),{ headers: {"Authorization" : this.user}})
+        console.log(response9);
+        this.followState="Follow";
+        
+        this.btKey++;
+        }
+      else{
+        let response10 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.user}});
+        console.log(response10);
+        this.followState="Unfollow";
+        
+        
+        this.btKey++;
+      }
     },
     toComm(photoName){
       console.log("clicked");
@@ -120,6 +154,22 @@ export default {
   },
     async fetchProfileData() {
       try {
+        await this.checkFollow();
+        console.log("here: "+this.followVal)
+        
+        if(this.followVal===true){
+         /* console.log("true? ");
+          console.log(this.followVal);*/
+          this.followState="Follow";
+          console.log("should be follow");
+          this.btKey++;
+        }else{
+         /* console.log("false? ");
+          console.log(this.followVal);*/
+          this.followState="Unfollow";
+          console.log("should be Unfollow");
+          this.btKey++;
+        }
         const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.profileId, { headers: {"Authorization" : this.profileId}});
         console.log(response.data);
         
