@@ -93,6 +93,7 @@ export default {
       randomString: "",
       inputText: "",
       nLikes:0,
+      profileId : this.$route.path.split("/").slice(-2)[0],
       };
   },
   mounted() {
@@ -100,9 +101,8 @@ export default {
     console.log("called");
   },
 methods: {
-  async delComment(commId,owner){
-    if (this.user==owner){
-
+  async delComment(commId,ownerId){
+    if (ownerId==this.user){
     console.log(commId);
     const response7= await this.$axios.delete("/userActions/"+this.user+"/interactions/comments/"+this.photoId+"/"+commId,{ headers: {"Authorization" : this.user}});
     console.log(response7);}
@@ -151,7 +151,7 @@ methods: {
     async fetchData(){
       var phId = this.$route.path.split("/").slice(-1)[0];
       this.photoId=phId;
-      const response = await this.$axios.get("/userActions/"+this.user+"/photoManager/"+phId, { headers: {"Authorization" : this.user}});
+      const response = await this.$axios.get("/userActions/"+this.profileId+"/photoManager/"+phId, { headers: {"Authorization" : this.profileId}});
       console.log(response.data);
       this.photo=response.data.image;
       if (response.data.comments!=null){
@@ -168,7 +168,8 @@ methods: {
     async uploadComment(){
       this.generateRandomString();
       const response2 = await this.$axios.post("/userActions/"+this.user+"/interactions/comments",JSON.stringify({idComment: { idObj: this.randomString }, content: this.inputText, owner: {idUser: this.user}, photo: {idObj: this.photoId} }),{ headers: {"Authorization" : this.user}});
-      
+      console.log(JSON.stringify({idComment: { idObj: this.randomString }, content: this.inputText, owner: {idUser: this.user}, photo: {idObj: this.photoId} }));
+      console.log(response2);
     },
   }
 };

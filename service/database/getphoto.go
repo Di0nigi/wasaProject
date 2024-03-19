@@ -23,7 +23,7 @@ func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 		var commArray []Comment
 		//var commentsRows *sql.Rows
 		
-		commentsRows, errs := db.c.Query("SELECT * FROM Comments WHERE ownerId = ? AND PhotoId=?",id,photoId)
+		commentsRows, errs := db.c.Query("SELECT * FROM Comments WHERE PhotoId=?",photoId)
 		if errs != nil {
         	return err, currentPost
     	}

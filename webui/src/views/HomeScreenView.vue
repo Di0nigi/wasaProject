@@ -1,16 +1,14 @@
 <template>
 
   <div class="container">
-    <div class="center">
-      <input type="text" v-model="textFieldValue" placeholder="Enter text here" />
+    <div class="profile">
+      <button @click="toProfilePage">Profile</button>
     </div>
-    <div class="side">
-      <button @click="submitText">Submit</button>
+    <div class="userSearch">
+      <input type="text" v-model="inputText" class="txtInp">
+      <button @click="searchUser">Search</button>
+      <p class="warning" v-if="userNotfound" :key="warnKey">User not found</p>
     </div>
-    <div class= "titleC">
-    <h1 class="title">{{ pageTitle }}</h1>
-    </div>
-    
   </div>
 
 </template>
@@ -21,56 +19,59 @@ export default {
   data() {
     return {
       pageTitle: "WasaPhoto",
-      textFieldValue: ''
+      user: localStorage.getItem('username').replace('"', '').replace('"', ''),
+      inputText: "",
+      userNotfound:false,
+      warnKey:0,
     };
   },
   methods: {
-    async submitText() {
-      // Handle submission here
-      console.log("Text submitted:", this.textFieldValue);
-	  let response = this.$axios.post("/session", { idUser: this.textFieldValue})
-    localStorage.setItem('username', JSON.stringify(this.textFieldValue));
-	  this.$router.push({path: '/'+this.textFieldValue+'/profile'})
+    toProfilePage(){
+      this.$router.push({path: '/'+this.user+'/profile'});
+
+    },
+    async searchUser(){
+      try{
+        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.inputText, { headers: {"Authorization" : this.user}});
+        console.log(response.data);
+        this.userNotfound=false;
+        this.$router.push({path: '/'+this.user+'/profile/iteract/'+response.data.id.idUser});
+        console.log("here");
+
+      }
+      catch(error){
+        this.userNotfound=true;
+        this.warnKey++;
+        
+
+      }
     }
   }
 };
 </script>
 
 <style scoped>
-@font-face {
-    font-family: "VP Pixel W03 Bold";
-    src: url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.eot");
-    src: url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.svg#VP Pixel W03 Bold")format("svg");
-}
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+.container{
+  position:relative;
   width: 100vw;
-  margin: 0;
-  flex-shrink: 0; 
-  background-color: rgba(71, 38, 77)
+  height: 100vh;
+  background-color: rgba(71, 38, 77,100)
 }
-.titleC{
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  padding-left: 350px;
+.profile{
+  position:absolute;
+  left:0;
+  top:0;
+  width: 20vw;
+  height:15vh;
+}
+.userSearch{
+  position:absolute;
+  right:0;
+  top:0;
 
 }
-.title{
-  color: rgba(255, 255, 255, 100);/* Change the color of the heading text */
-  font-family: "VP Pixel W03 Bold"; /* Change the font family of the heading text */
-  font-size: 120px; /* Change the font size of the heading text */
-  
+.warning{
+  color: rgba(255,255,255,0);
 }
-
-
 
 </style>

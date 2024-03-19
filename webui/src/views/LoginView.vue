@@ -30,7 +30,7 @@ export default {
       console.log("Text submitted:", this.textFieldValue);
 	  let response = this.$axios.post("/session", { idUser: this.textFieldValue})
     localStorage.setItem('username', JSON.stringify(this.textFieldValue));
-	  this.$router.push({path: '/'+this.textFieldValue+'/profile'})
+	  this.$router.push({path: '/'+this.textFieldValue+'/home'})
     }
   }
 };
