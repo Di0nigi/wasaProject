@@ -17,7 +17,7 @@
 
     <div class="photo-stack">
             <div class="photo-container" v-for="(photo, index) in stack" :key="index">
-              <button class="buttonIm" @click="toComm(photo.id)" >
+              <button class="buttonIm" @click="toComm(photo.id)" @contextmenu.prevent="rightClickDel(photo.id)">
                 <img :src=photo.url alt="Uploadedphoto">
               </button>
             </div> 
@@ -104,6 +104,11 @@ export default {
 
   },
   methods: {
+    async rightClickDel(photoName){ 
+    const response7= await this.$axios.delete("/userActions/"+this.user+"/photoManager/"+photoName,{ headers: {"Authorization" : this.user}});
+    console.log(response7);
+
+    },
     toComm(photoName){
       console.log("clicked");
       this.$router.push({path: '/'+this.user+'/profile/'+photoName})
