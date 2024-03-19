@@ -29,9 +29,10 @@ export class slideShowim{
     }
   }
   export class dispComment{
-    constructor(owner, content) {
+    constructor(owner, content, idComment) {
       this.owner = owner;
       this.content = content;
+      this.idComment= idComment;
     }
   }
 

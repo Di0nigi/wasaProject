@@ -15,7 +15,10 @@
         <input type="text" v-model="inputText" class="txtInp">
       </div>
       <div class="commDisplay" v-for="(comm, index) in commStack" :key="index">
-      <p class="sComment">{{ comm.owner+": "+comm.content }}</p>
+      <div comContainer>
+        <p class="sComment">{{ comm.owner+": "+comm.content }}</p>
+        <button @click="delComment( comm.idComment )">delete</button>
+      </div>
       </div>
     </div>
   </div>
@@ -97,6 +100,13 @@ export default {
     console.log("called");
   },
 methods: {
+  async delComment(commId){
+
+    console.log(commId);
+    const response7= await this.$axios.delete("/userActions/"+this.user+"/interactions/comments/"+this.photoId+"/"+commId,{ headers: {"Authorization" : this.user}});
+    console.log(response7);
+    
+  },
   async checkLikevalidity(){
     try{
     const response4 = await this.$axios.get("/userActions/"+this.user+"/interactions/likes/"+this.photoId,{ headers: {"Authorization" : this.user}});
@@ -145,7 +155,7 @@ methods: {
       this.photo=response.data.image;
       if (response.data.comments!=null){
         for(let i=0; i<response.data.comments.length; i++){
-          var cm=new dispComment( response.data.comments[i].owner.idUser,response.data.comments[i].content);
+          var cm=new dispComment( response.data.comments[i].owner.idUser,response.data.comments[i].content,response.data.comments[i].idComment.idObj);
           this.commStack.push(cm);
         }
       }

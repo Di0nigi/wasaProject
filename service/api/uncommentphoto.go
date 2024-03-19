@@ -24,11 +24,11 @@ func (rt *_router) unCommentPhoto(w http.ResponseWriter, r *http.Request, ps htt
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
-    _, err=w.Write([]byte("Comment deleted"))
+    /*_, err=w.Write([]byte("Comment deleted"))
 	if err!= nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		
 		return
-	}
+	}*/
 
 }	
