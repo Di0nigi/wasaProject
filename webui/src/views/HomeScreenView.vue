@@ -9,14 +9,15 @@
       <button @click="searchUser">Search</button>
       <p class="warning" v-if="userNotfound" :key="warnKey">User not found</p>
     </div>
-    <div class="followStream">
+    
     <div class="photo-stack">
             <div class="photo-container" v-for="(photo, index) in streamStack" :key="index">
+            <button class="photoOwner" @click="toOwnerProfile(photo.owner)">{{ photo.owner }}</button>
               <button class="buttonIm" @click="toComm(photo.id, photo.owner)">
                 <img :src=photo.url alt="Uploadedphoto">
               </button>
             </div> 
-    </div>
+
 
     </div>
   </div>
@@ -43,6 +44,10 @@ export default {
 
   },
   methods: {
+    toOwnerProfile(profileName){
+      this.$router.push({path:'/'+this.user+'/profile/iteract/'+profileName});
+
+    },
     toComm(photoName,photoOwner){
       this.$router.push({path: '/'+this.user+'/profile/iteract/'+photoOwner+'/'+photoName});
     },
@@ -106,6 +111,21 @@ export default {
 }
 .warning{
   color: rgba(255,255,255,100);
+}
+.photoOwner{
+  padding-top:0px;
+  
+
+}
+.photo-stack {
+  padding-top: 20px;
+  max-height: 500px;
+  max-width: 400px;
+  overflow-y: auto; /* Enable vertical scrolling */
+  position: absolute;
+  left: 50%;
+  top: 10%;
+  transform: translate(-50%, -10%);
 }
 
 </style>
