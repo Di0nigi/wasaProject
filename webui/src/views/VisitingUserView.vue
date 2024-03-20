@@ -8,7 +8,8 @@
       </div>
     </div>
     <div class="follow">
-      <button class="followBt" @click="toFollow" :style="btModel" :key="btKey">{{ followState }}</button>
+      <button class="followBt" @click="toFollow" :key="btKey">{{ followState }}</button>
+       <button class="BlockBt" @click="toBlock" :key="blKey">{{ blockState }}</button>
 
     </div>
 
@@ -32,6 +33,11 @@
   background-color: rgba(71, 38, 77,100);
 
 }
+.BlockBt{
+  color: rgba(255,0,0,100);
+  height:10vh;
+}
+  
 
 .container {
   height: 100vh;
@@ -77,7 +83,6 @@
   top:0;
 }
 .followBt{
-
   color: rgba(0,255,0,100);
   width:15vw;
   height:10vh;
@@ -90,6 +95,8 @@ import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      blKey:0,
+      blockState: "Block",
       btKey: 0,
       followVal:true,
       followState: "",
@@ -110,6 +117,9 @@ export default {
     this.fetchProfileData();
   },
   methods: {
+    async toBlock(){
+
+    },
     async checkFollow(){
       try{
       const response4 = await this.$axios.get("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId, { headers: {"Authorization" : this.user}});
