@@ -3,7 +3,7 @@
     <div class="likeBts">
       <button @click="LikePost" class="like">Like</button>
       <button @click="UnLikePost" class="unLike">unlike</button>
-      <p class="nLike">{{ nLikes+" people liked your post!" }}</p>
+      <p class="nLike">{{ nLikes+" people liked the post!" }}</p>
 
     </div>
     <div class="imageContainer">
