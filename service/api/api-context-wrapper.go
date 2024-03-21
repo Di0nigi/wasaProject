@@ -22,7 +22,7 @@ func (rt *_router) wrap(fn httpRouterHandler) func(http.ResponseWriter, *http.Re
 			return
 		}
 		authHeader := r.Header.Get("Authorization")
-		//user, err := rt.db.GetUser(authHeader)
+		
 		var ctx = reqcontext.RequestContext{
 			ReqUUID: reqUUID,
 			User: authHeader,

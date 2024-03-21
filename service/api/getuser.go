@@ -5,14 +5,12 @@ import (
 	
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/api/reqcontext"
 	"github.com/julienschmidt/httprouter"
-	//"fmt"
-	//"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/database"
-)
+	)
 type CustomError struct {
 	message string
 }
 
-//etHelloWorld is an example of HTTP endpoint that returns "Hello world!" as a plain text
+
 func (rt *_router) getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	id:=ps.ByName("AccountId")
 	
@@ -43,7 +41,7 @@ func (ce *CustomError) Error() string {
     return ce.message
 }
 
-// NewCustomError creates a new CustomError instance with the provided message
+
 func NewCustomError(message string) error {
     return &CustomError{message: message}
 }
