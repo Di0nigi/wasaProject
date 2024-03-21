@@ -145,9 +145,15 @@ export default {
         console.log(JSON.stringify({idUser: this.profileId}));
         const response11= await this.$axios.post("/userActions/"+this.user+"/interactions/manageBan",JSON.stringify({idUser: this.profileId}) ,{ headers: {"Authorization" : this.user}});
         console.log(response11);
-        
-
         this.blockState="Unblock";
+        await this.checkFollow();
+        if (this.followVal==false){
+          console.log("qui"+this.followVal);
+        let response13 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.user}});
+        console.log(response13);
+        this.followState="Follow";
+         this.btKey++;
+        }
       }
 
 
@@ -174,16 +180,18 @@ export default {
       
       
       if (this.followVal==true){
+        await this.checkBlock()
+        if (this.blkVal==true){
         let response9 = await this.$axios.post("/userActions/"+this.user+"/interactions/followingActions", JSON.stringify({idUser: this.profileId}),{ headers: {"Authorization" : this.user}})
         console.log(response9);
-        this.followState="Follow";
+        this.followState="Unfollow";
         
-        this.btKey++;
+        this.btKey++;}
         }
       else{
         let response10 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.user}});
         console.log(response10);
-        this.followState="Unfollow";
+        this.followState="Follow";
         
         
         this.btKey++;

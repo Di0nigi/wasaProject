@@ -55,15 +55,18 @@ export default {
       console.log("fetched");
       const response5 = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.user, { headers: {"Authorization" : this.user}});
       console.log(response5.data);
-      if (response5.data.folls!=null){
+      console.log("jdjd");
+      if(response5.data.follows!=null){
       for(let i=0; i<response5.data.follows.length;i++){
         console.log("eme"+i);
         const response6 = await this.$axios.get("/userActions/"+response5.data.follows[i].idUser, { headers: {"Authorization" : response5.data.follows[i].idUser}});
+        if(response6.data!=null){
         console.log(response6.data);
         var im= new slideShowim(response6.data.slice(-1)[0].idPhoto.idObj,response6.data.slice(-1)[0].image);
         im.owner=response5.data.follows[i].idUser;
-        this.streamStack.push(im);
-      }}
+        this.streamStack.push(im);}
+      }
+      }
 
     },
     toProfilePage(){
