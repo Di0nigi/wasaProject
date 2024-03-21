@@ -295,6 +295,40 @@ paths:
                   message: "The request could not be processed due to invalid data or syntax error"
             
   /userActions/{UserId}/interactions/manageBan/{banned}:
+    get:
+        tags: ["getBan"]
+        operationId: getBan
+        description: "gets a banned user"
+        summary: unbans a user from your profile
+        parameters:
+        - name: UserId
+          in: path
+          required: true
+          schema:
+            $ref : '#/components/schemas/UserId'
+        - name: banned
+          in: path
+          required: true
+          schema:
+            $ref : '#/components/schemas/UserId'
+                
+        responses:
+          '200':
+            description: banned user retrieved successfully
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UserId'
+          '204':
+            description: User unbanned
+          '400':
+            description: Bad Request
+            content:
+              application/json:
+                example:
+                  error: "Bad Request"
+                  message: "The request could not be processed due to invalid data or syntax error"
+  
     delete:
         tags: ["unBan"]
         operationId: unbanUser

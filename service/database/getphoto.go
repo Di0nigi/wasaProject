@@ -1,7 +1,7 @@
 package database
 import (
 	"database/sql"
-	"fmt"
+
 
 )
 
@@ -31,8 +31,6 @@ func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 		for commentsRows.Next(){
 			var currentComment Comment
 			err =commentsRows.Scan(&currentComment.IDComment.IDObj,&currentComment.Owner.IDUser,&currentComment.Content,&currentComment.Photo.IDObj)
-			fmt.Printf(currentComment.Content)
-			fmt.Printf(currentComment.Owner.IDUser)
 			if err != nil {
 				return err, currentPost
 			}

@@ -96,7 +96,8 @@ export default {
   data() {
     return {
       blKey:0,
-      blockState: "Block",
+      blockState: "eo",
+      blkVal: true,
       btKey: 0,
       followVal:true,
       followState: "",
@@ -117,7 +118,38 @@ export default {
     this.fetchProfileData();
   },
   methods: {
+    async checkBlock(){
+      try{
+        const response8 = await this.$axios.get("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.user}});
+        console.log(response8);
+        this.blkVal=false;
+      }
+      catch(error){
+        this.blkVal=true;
+
+      }
+    },
+
     async toBlock(){
+      await this.checkBlock();
+      if(this.blkVal==false){
+        console.log(this.blkVal);
+        console.log("Unblock");
+        const response12 = await this.$axios.delete("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.user}});
+        console.log(response12);
+        this.blockState="Block";
+      }
+      else{
+        console.log(this.blkVal);
+        console.log("Block");
+        console.log(JSON.stringify({idUser: this.profileId}));
+        const response11= await this.$axios.post("/userActions/"+this.user+"/interactions/manageBan",JSON.stringify({idUser: this.profileId}) ,{ headers: {"Authorization" : this.user}});
+        console.log(response11);
+        
+
+        this.blockState="Unblock";
+      }
+
 
     },
     async checkFollow(){
@@ -163,10 +195,16 @@ export default {
      
   },
     async fetchProfileData() {
+      await this.checkBlock();
+      if(this.blkVal==true){
+        this.blockState="Block";
+      }
+      else{
+        this.blockState="Unblock";
+      }
       try {
         await this.checkFollow();
         console.log("here: "+this.followVal)
-        
         if(this.followVal===true){
          /* console.log("true? ");
           console.log(this.followVal);*/

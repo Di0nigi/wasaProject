@@ -58,6 +58,7 @@ type AppDatabase interface {
 	GetPhoto(string, string) (error, PostedImage)
 	GetLike(string, string) (error, Like)
 	GetFollower(string,string) (error, UserId)
+	GetBanned(string,string) (error,UserId)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)
