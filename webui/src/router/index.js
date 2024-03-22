@@ -5,6 +5,8 @@ import PostedImageView from '../views/PostedImageView.vue'
 import HomeScreenView from '../views/HomeScreenView.vue'
 import VisitingUserView from '../views/VisitingUserView.vue'
 import VisitingPostView from '../views/VisitingPostView.vue'
+import BlockedUserView from '../views/BlockedUserView.vue'
+
 
 
 const router = createRouter({
@@ -16,6 +18,7 @@ const router = createRouter({
 		{path: '/:userId/home', component: HomeScreenView},
 		{path: '/:userId/profile/iteract/:userId', component: VisitingUserView},
 		{path: '/:userId/profile/iteract/:userId/:photoId', component: VisitingPostView},
+		{path: '/:userId/blocked', component: BlockedUserView},
 		//{path: '/link1', component: HomeView},
 		//{path: '/link2', component: HomeView},
 		//{path: '/some/:id/link', component: HomeView},

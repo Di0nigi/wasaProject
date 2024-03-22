@@ -26,18 +26,20 @@
 </template>
 
 <style>
+
 .layout{
   position: relative;
   height: 100vh;
   width: 100vw;
   background-color: rgba(71, 38, 77,100);
+  }
 
-}
+
+
 .BlockBt{
   color: rgba(255,0,0,100);
   height:10vh;
 }
-  
 
 .container {
   height: 100vh;
@@ -114,10 +116,23 @@ export default {
       profileId : this.$route.path.split("/").slice(-1)[0],
     };
   },
-  mounted() {
+  async mounted() {
+    await this.ifBlocked();
     this.fetchProfileData();
   },
   methods: {
+
+    async ifBlocked(){
+      try{
+        const response12 = await this.$axios.get("/userActions/"+this.profileId+"/interactions/manageBan/"+this.user, { headers: {"Authorization" : this.profileId}});
+        console.log(response12);
+        this.$router.push({path: '/'+this.user+'/blocked'});
+      }
+      catch(error){
+        console.log("not blocked");
+      }
+    },
+    
     async checkBlock(){
       try{
         const response8 = await this.$axios.get("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.user}});
@@ -154,6 +169,12 @@ export default {
         this.followState="Follow";
          this.btKey++;
         }
+        let response14 = await this.$axios.delete("/userActions/"+this.profileId+"/interactions/followingActions/"+this.user,{ headers: {"Authorization" : this.profileId}});
+        console.log(response14);
+
+
+
+
       }
 
 
