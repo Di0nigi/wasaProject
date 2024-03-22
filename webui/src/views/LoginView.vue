@@ -65,6 +65,7 @@ export default {
 
 }
 .title{
+  
   color: rgba(255, 255, 255, 100);/* Change the color of the heading text */
   font-family: "VP Pixel W03 Bold"; /* Change the font family of the heading text */
   font-size: 120px; /* Change the font size of the heading text */

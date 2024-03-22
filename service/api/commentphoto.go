@@ -18,10 +18,10 @@ func (rt *_router) commentPhoto(w http.ResponseWriter, r *http.Request, ps httpr
 	
 	//_,errdb := rt.db.GetBanned(comm.Owner.IDUser,id)
 
-	if errdb!=nil {
+	/*if errdb!=nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
-	}
+	}*/
 	
 	
 	var comm database.Comment
