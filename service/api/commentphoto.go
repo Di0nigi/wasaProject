@@ -15,15 +15,6 @@ import (
 
 
 func (rt *_router) commentPhoto(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
-	
-	//_,errdb := rt.db.GetBanned(comm.Owner.IDUser,id)
-
-	/*if errdb!=nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
-	}*/
-	
-	
 	var comm database.Comment
 	id:=ctx.User
 	err := json.NewDecoder(r.Body).Decode(&comm)
@@ -32,6 +23,10 @@ func (rt *_router) commentPhoto(w http.ResponseWriter, r *http.Request, ps httpr
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+
+
+
 	err= rt.db.AddComment(id,comm)
 	
 	if err!=nil{

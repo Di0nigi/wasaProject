@@ -12,6 +12,7 @@ func (rt *_router) getImage(w http.ResponseWriter, r *http.Request, ps httproute
 	id:=ps.ByName("ObjId")
 	User:=ctx.User
 
+
 	err, image := rt.db.GetPhoto(User,id)
 	if err!=nil{
 		http.Error(w, err.Error(), http.StatusBadRequest)

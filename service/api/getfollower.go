@@ -11,6 +11,12 @@ func (rt *_router) getFollower(w http.ResponseWriter, r *http.Request, ps httpro
 	id:=ps.ByName("followers")
 	User:=ctx.User
 
+	errs, _ := rt.db.GetBanned(id,User)
+	if errs == nil {
+		http.Error(w, errs.Error(), http.StatusBadRequest)
+		return
+	}
+
 
 	err, usId:= rt.db.GetFollower(User,id)
 	if err!=nil{

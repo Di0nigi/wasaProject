@@ -20,6 +20,12 @@ func (rt *_router) followUser(w http.ResponseWriter, r *http.Request, ps httprou
 		return
 	}
 
+	err, _ = rt.db.GetBanned(toFollow.IDUser,id)
+	if err == nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
 	err = rt.db.AddFollower(toFollow.IDUser,id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)

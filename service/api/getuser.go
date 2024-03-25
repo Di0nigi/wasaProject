@@ -13,6 +13,13 @@ type CustomError struct {
 
 func (rt *_router) getUser(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	id:=ps.ByName("AccountId")
+	accId:=ctx.User
+
+	errr, _ :=rt.db.GetBanned(id,accId)
+	if errr == nil {
+		http.Error(w, errr.Error(), http.StatusBadRequest)
+		return
+	}
 	
 
 	res, errs:= rt.db.GetUserID(id)

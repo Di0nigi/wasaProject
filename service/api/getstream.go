@@ -10,6 +10,9 @@ import (
 )
 func (rt *_router) getStream(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	User:=ctx.User
+
+	
+	
 	err, stream := rt.db.GetAllphotos(User)
 
 	if err!=nil{
