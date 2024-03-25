@@ -94,7 +94,7 @@ components:
           maxLength: 10000000000000000000
         likes:
           type: integer
-          example: 1
+          example: [1]
         comments: 
           type: array
           minItems: 0
@@ -103,7 +103,7 @@ components:
              $ref: '#/components/schemas/comment'
         numComments:
           type: integer
-          example: 1
+          example: [1]
           
     comment:
       title: Comment
@@ -579,7 +579,8 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-  /userActions/{UserId}/interactions/comments/{photo}/{commentId}:
+                
+  /userActions/{UserId}/interactions/comments/{PhotoId}/actions/{commentId}:
     delete:
       tags: ["uncomment"]
       operationId: uncommentPhoto
@@ -596,7 +597,7 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/ObjId'
-        - name: photo
+        - name: PhotoId
           in: path
           required: true
           schema: 
@@ -642,7 +643,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/likes/{photo}/{likeId}:
+  /userActions/{UserId}/interactions/likeaction/{photo}/actions/{likeId}/likes:
     delete:
       tags: ["likes"]
       operationId: unlikePhoto
@@ -675,7 +676,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
   
-  /userActions/{UserId}/interactions/likes/{photo}:
+  /userActions/{UserId}/interactions/likes/{photoId}:
     get:
       tags: ["likes"]
       operationId: getlikePhoto
@@ -687,7 +688,7 @@ paths:
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
-        - name: photo
+        - name: photoId
           in: path
           required: true
           schema: 
@@ -708,4 +709,3 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-  

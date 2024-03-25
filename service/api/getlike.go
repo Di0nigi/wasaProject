@@ -9,7 +9,7 @@ import (
 
 
 func (rt *_router) getLikePost(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
-	id:=ps.ByName("photo")
+	id:=ps.ByName("postId")
 	User:=ctx.User
 
 	err, lk:= rt.db.GetLike(User,id)

@@ -104,7 +104,7 @@ methods: {
   async delComment(commId,ownerId){
     if (ownerId==this.user){
     console.log(commId);
-    const response7= await this.$axios.delete("/userActions/"+this.user+"/interactions/comments/"+this.photoId+"/"+commId,{ headers: {"Authorization" : this.user}});
+    const response7= await this.$axios.delete("/userActions/"+this.user+"/interactions/comments/"+this.photoId+"/actions/"+commId,{ headers: {"Authorization" : this.user}});
     console.log(response7);}
     
   },
@@ -135,7 +135,7 @@ methods: {
     if (this.valLike==true){
     const response6 = await this.$axios.get("/userActions/"+this.user+"/interactions/likes/"+this.photoId,{ headers: {"Authorization" : this.user}});
     console.log(response6);
-    const response5 = await this.$axios.delete("/userActions/"+this.user+"/interactions/likes/"+this.photoId+"/"+response6.data.idLike.idObj,{ headers: {"Authorization" : this.user}});
+    const response5 = await this.$axios.delete("/userActions/"+this.user+"/interactions/likeaction/"+this.photoId+"/actions/"+response6.data.idLike.idObj+"/likes",{ headers: {"Authorization" : this.user}});
     console.log(response5);}
 
   },

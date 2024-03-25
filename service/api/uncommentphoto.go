@@ -11,7 +11,7 @@ import (
 func (rt *_router) unCommentPhoto(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	comm :=ps.ByName("commentId")
 	id:=ctx.User
-	ph:=ps.ByName("photo")
+	ph:=ps.ByName("PhotoId")
 	
 	
 	
@@ -22,5 +22,4 @@ func (rt *_router) unCommentPhoto(w http.ResponseWriter, r *http.Request, ps htt
 	}
 	w.WriteHeader(http.StatusNoContent)
    
-
 }	

@@ -33,13 +33,13 @@ func (rt *_router) Handler() http.Handler {
 
 	rt.router.POST("/userActions/:UserId/interactions/comments", rt.wrap(rt.commentPhoto))
 	
-	rt.router.DELETE("/userActions/:UserId/interactions/comments/:photo/:commentId", rt.wrap(rt.unCommentPhoto))
+	rt.router.DELETE("/userActions/:UserId/interactions/comments/:PhotoId/actions/:commentId", rt.wrap(rt.unCommentPhoto))
 
 	rt.router.POST("/userActions/:UserId/interactions/likes",rt.wrap(rt.likePost))
 
-	rt.router.DELETE("/userActions/:UserId/interactions/likes/:photo/:likeId",rt.wrap(rt.unLikePost))
+	rt.router.DELETE("/userActions/:UserId/interactions/likeaction/:photo/actions/:likeId/likes",rt.wrap(rt.unLikePost))
 	
-	rt.router.GET("/userActions/:UserId/interactions/likes/:photo",rt.wrap(rt.getLikePost))
+	rt.router.GET("/userActions/:UserId/interactions/likes/:postId",rt.wrap(rt.getLikePost))
 	
 	
 	// Special routes

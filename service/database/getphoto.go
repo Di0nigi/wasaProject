@@ -1,17 +1,11 @@
 package database
-import (
-	"database/sql"
 
-
-)
 
 func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 
-	var rows *sql.Rows
-	var err error
 	var currentPost PostedImage
 
-	rows, err = db.c.Query("SELECT * FROM PostedImages WHERE ownerId=? AND PhotoId=?",id, photoId)
+	rows, err := db.c.Query("SELECT * FROM PostedImages WHERE ownerId=? AND PhotoId=?",id, photoId)
 	if err != nil {
 		return err, currentPost
 	}
