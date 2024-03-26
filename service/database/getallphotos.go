@@ -3,8 +3,6 @@ package database
 
 func (db *appdbimpl) GetAllphotos(id string) (error, []PostedImage) {
 	var stream []PostedImage
-	// var rows *sql.Rows
-	// var err error
 
 	rows, err := db.c.Query("SELECT * FROM PostedImages WHERE ownerId=?",id)
 

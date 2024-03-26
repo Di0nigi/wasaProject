@@ -2,6 +2,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"errors"
 	
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/api/reqcontext"
 	"github.com/julienschmidt/httprouter"
@@ -13,9 +14,10 @@ func (rt *_router) getFollower(w http.ResponseWriter, r *http.Request, ps httpro
 
 	errs, _ := rt.db.GetBanned(id,User)
 	if errs == nil {
-		http.Error(w, errs.Error(), http.StatusBadRequest)
-		return
-	}
+			errs = errors.New("Banned")
+			http.Error(w, errs.Error(), http.StatusBadRequest)
+			return}
+		
 
 
 	err, usId:= rt.db.GetFollower(User,id)
