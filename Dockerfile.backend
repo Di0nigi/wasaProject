@@ -1,15 +1,23 @@
-FROM golang:1.19.1 AS builder
+# Start from the latest Golang base image
+FROM golang:latest
 
-WORKDIR /src/
+# Set the Current Working Directory inside the container
+WORKDIR /app
+
+# Copy go mod and sum files
+COPY go.mod go.sum ./
+
+# Download all dependencies
+RUN go mod download
+
+# Copy the source from the current directory to the Working Directory inside the container
 COPY . .
 
-RUN go build -o /app/webapi ./cmd/webapi
+# Build the Go app
+RUN go build -o webapi ./cmd/webapi/
 
-FROM debian:bullseye
+# Expose port 3000 to the outside world
+EXPOSE 3000
 
-EXPOSE 3000 4000
-
-WORKDIR /app/
-COPY --from=builder /app/webapi ./
-
-CMD ["/app/webapi"]
+# Command to run the executable
+CMD ["./webapi"]
