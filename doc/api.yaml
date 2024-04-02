@@ -580,7 +580,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/comments/{PhotoId}/actions/{commentId}:
+  /userActions/:UserId/interactions/comments/{PhotoId}/{commentId}:
     delete:
       tags: ["uncomment"]
       operationId: uncommentPhoto
@@ -642,8 +642,8 @@ paths:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
-                
-  /userActions/{UserId}/interactions/likeaction/{photo}/actions/{likeId}/likes:
+            
+  /userActions/:UserId/interactions/likes/{photo}/{likeId}:
     delete:
       tags: ["likes"]
       operationId: unlikePhoto
@@ -676,7 +676,7 @@ paths:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
   
-  /userActions/{UserId}/interactions/likes/{photoId}:
+  /userActions/:UserId/interactions/likes/{photoId}:
     get:
       tags: ["likes"]
       operationId: getlikePhoto
