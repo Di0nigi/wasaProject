@@ -34,7 +34,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	//_ "github.com/go-sql-driver/mysql"
+	// _ "github.com/go-sql-driver/mysql"
 )
 
 // AppDatabase is the high level interface for the DB
