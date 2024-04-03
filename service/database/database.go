@@ -39,26 +39,25 @@ import (
 
 // AppDatabase is the high level interface for the DB
 type AppDatabase interface {
-
-	GetUserID(string)(bool,error)
-	CreateUser(string)(error)
-	ChangeUsername(string,string)(error)
-	GetAllphotos(string)(error,[]PostedImage)
-	GetUserProfile(string)(error,User)
-	AddBlocked(string,string)(error)
-	DelBlocked(string, string)(error)
-	AddFollower(string, string)(error)
-	DelFollower(string, string)(error)
-	AddPost(string, PostedImage)(error)
-	DelPost(string,string) (error)
-	AddComment(string, Comment) (error)
-	DelComment(string, string, string) (error)
-	AddLike(string, Like) (error)
-	DelLike(string, string, string) (error)
+	GetUserID(string) (bool, error)
+	CreateUser(string) error
+	ChangeUsername(string, string) error
+	GetAllphotos(string) (error, []PostedImage)
+	GetUserProfile(string) (error, User)
+	AddBlocked(string, string) error
+	DelBlocked(string, string) error
+	AddFollower(string, string) error
+	DelFollower(string, string) error
+	AddPost(string, PostedImage) error
+	DelPost(string, string) error
+	AddComment(string, Comment) error
+	DelComment(string, string, string) error
+	AddLike(string, Like) error
+	DelLike(string, string, string) error
 	GetPhoto(string, string) (error, PostedImage)
 	GetLike(string, string) (error, Like)
-	GetFollower(string,string) (error, UserId)
-	GetBanned(string,string) (error,UserId)
+	GetFollower(string, string) (error, UserId)
+	GetBanned(string, string) (error, UserId)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)
@@ -72,8 +71,6 @@ type AppDatabase interface {
 	SaveBlocked(blocked api.User,user api.User) error
 	SaveImage(img api.PostedImage) error
 	SaveFollower(user api.User,followedby api.User) error*/
-
-
 
 	Ping() error
 }
@@ -124,13 +121,12 @@ func New(db *sql.DB) (AppDatabase, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
-	
+
 	query = `CREATE TABLE IF NOT EXISTS Likes (LikeId TEXT PRIMARY KEY, ownerId TEXT, PhotoId TEXT);`
 	_, err = db.Exec(query)
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
-
 
 	return &appdbimpl{
 		c: db,

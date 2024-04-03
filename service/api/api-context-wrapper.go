@@ -22,10 +22,10 @@ func (rt *_router) wrap(fn httpRouterHandler) func(http.ResponseWriter, *http.Re
 			return
 		}
 		authHeader := r.Header.Get("Authorization")
-		
+
 		var ctx = reqcontext.RequestContext{
 			ReqUUID: reqUUID,
-			User: authHeader,
+			User:    authHeader,
 		}
 
 		// Create a request-specific logger

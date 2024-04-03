@@ -3,11 +3,11 @@ package api
 import (
 	"encoding/json"
 	"net/http"
-	
-	
+
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/api/reqcontext"
 	"github.com/julienschmidt/httprouter"
 )
+
 func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	var User UserId
 	err := json.NewDecoder(r.Body).Decode(&User)
@@ -17,10 +17,10 @@ func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.P
 		return
 	}
 	ret, err := rt.db.GetUserID(User.IDUser)
-	
-	if !ret{
+
+	if !ret {
 		err = rt.db.CreateUser(User.IDUser)
-		if err!= nil{
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -28,5 +28,5 @@ func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.P
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	_ = json.NewEncoder(w).Encode(User)
-	
+
 }
