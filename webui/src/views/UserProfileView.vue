@@ -7,6 +7,10 @@
         <p class="followed">{{ "Follows: "+followed }}</p>
       </div>
     </div>
+    <div class= "changUsername">
+      <button class changeUsButton @click="changeUser">Change username</button>
+      <input type="text" v-model="inputText" class="txtInp">
+    </div>
 
     <div class="photoUp">
         <input type="file" @change="handleFileUpload" ref="fileInput" accept="image/*" style="display: none;">
@@ -28,12 +32,18 @@
 </template>
 
 <style>
+
 .layout{
   position: relative;
   height: 100vh;
   width: 100vw;
   background-color: rgba(71, 38, 77,100);
 
+}
+.changUsername{
+  position: absolute;
+  left:0;
+  bottom:0;
 }
 .photoUp{
   position: absolute;
@@ -87,6 +97,7 @@ import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      inputText: "",
       randomString: "1",
       binaryIm:"10",
       file: null,
@@ -99,11 +110,32 @@ export default {
       user: localStorage.getItem('username').replace('"', '').replace('"', ''),
     };
   },
+  beforeDestroy() {
+    window.removeEventListener('popstate', this.handleBackButton)
+  },
   mounted() {
     this.fetchProfileData();
+    
+    window.addEventListener('popstate', this.handleBackButton);
 
   },
   methods: {
+    handleBackButton() {
+      // Perform your custom action when the back button is pressed
+      // For example, navigate to the "NewPage" component
+      this.$router.push({path:'/'+this.user+'/home'})
+    },
+    
+    async changeUser(){
+      if(this.inputText!=""){
+      const response10 = await this.$axios.post("/userActions/"+this.user,JSON.stringify({idUser: this.inputText}),{ headers: {"Authorization" : this.user}});
+      console.log(response10);
+      localStorage.setItem('username', JSON.stringify(this.inputText));
+      this.user=localStorage.getItem('username').replace('"', '').replace('"', '');
+      this.$router.push({path:'/'+this.user+'/profile'});
+      }
+
+    },
     async rightClickDel(photoName){ 
     const response7= await this.$axios.delete("/userActions/"+this.user+"/photoManager/"+photoName,{ headers: {"Authorization" : this.user}});
     console.log(response7);

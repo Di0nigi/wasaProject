@@ -3,7 +3,7 @@ func (db *appdbimpl) ChangeUsername(oldId string, newId string) (error) {
 	
 	_, err:= db.c.Exec(`UPDATE Users SET UserId=? WHERE UserId=?`,newId,oldId)
 	if err!=nil{
-		return err
+		return err 
 	}
 	_, err = db.c.Exec(`UPDATE BlockedUsers SET UserId=? WHERE UserId=?`,newId,oldId)
 	if err!=nil{
