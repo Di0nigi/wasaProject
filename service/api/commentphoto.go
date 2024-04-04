@@ -28,9 +28,9 @@ func (rt *_router) commentPhoto(w http.ResponseWriter, r *http.Request, ps httpr
 	}
 	w.WriteHeader(http.StatusNoContent)
 	_, err = w.Write([]byte("Comment added"))
-	/*if err!= nil {
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
-	}*/
+	}
 
 }

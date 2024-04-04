@@ -20,5 +20,9 @@ func (rt *_router) unLikePost(w http.ResponseWriter, r *http.Request, ps httprou
 	}
 	w.WriteHeader(http.StatusNoContent)
 	_, err = w.Write([]byte("unliked succesfully"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+
+	}
 
 }

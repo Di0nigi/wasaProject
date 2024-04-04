@@ -18,5 +18,9 @@ func (rt *_router) unFollowUser(w http.ResponseWriter, r *http.Request, ps httpr
 	}
 	w.WriteHeader(http.StatusNoContent)
 	_, err = w.Write([]byte("User unfollowed"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+
+	}
 
 }

@@ -10,6 +10,7 @@ func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 	}
 	for rows.Next() {
 		err = rows.Scan(&currentPost.IDPhoto.IDObj, &currentPost.Owner.IDUser, &currentPost.Image, &currentPost.Likes, &currentPost.NumComments)
+
 		if err != nil {
 			return err, currentPost
 		}
@@ -33,6 +34,10 @@ func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 			return err, currentPost
 		}
 		currentPost.Comments = commArray
+	}
+	if rows.Err != nil {
+		return err, currentPost
+
 	}
 
 	return err, currentPost

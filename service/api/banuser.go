@@ -26,10 +26,10 @@ func (rt *_router) banUser(w http.ResponseWriter, r *http.Request, ps httprouter
 
 	w.WriteHeader(http.StatusNoContent)
 	_, err = w.Write([]byte("User Banned"))
-	/*if err!= nil {
+	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 
 		return
 	}
-	*/
+
 }

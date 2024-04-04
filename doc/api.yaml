@@ -145,7 +145,7 @@ paths:
         and an identifier is returned.
         If the user exists, the user identifier is returned.
       requestBody:
-        description: User details
+        description: "User details"
         content:
           application/json:
             schema:
@@ -153,7 +153,7 @@ paths:
         required: true
       responses:
         '201':
-          description: User log-in action successful
+          description: "User log-in action successful"
           content:
             application/json:
               schema:
@@ -174,7 +174,7 @@ paths:
       summary: set your desired username
       
       requestBody:
-        description: desired username
+        description: "desired username"
         content:
           application/json:
             schema:
@@ -183,13 +183,13 @@ paths:
         required: true
       responses:
         '201':
-          description: Username created succesfully
+          description: "Username created succesfully"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: bad request
+                description: "bad request"
                 example:
                   error:
                     code: bad_request
@@ -205,28 +205,29 @@ paths:
       summary: returns an array of postedImage
       responses:
         '200':
-          description: stream retrieved successfully
+          description: "stream retrieved successfully"
           content:
             application/json:
               schema:
+                description: "stream"
                 type : array
                 minItems: 0
                 maxItems: 500
                 items: 
                   $ref: '#/components/schemas/postedImage'
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               example:
                 error: "Bad Request"
                 message: "The request could not be processed due to invalid data or syntax error"
         '404':
-            description: Not Found
+            description: "Not Found"
             content:
               application/json:
                 schema:
-                  description: not found
+                  description: "not found"
                   example:
                     error: "Not Found"
                     message: "The requested object could not be found"
@@ -250,26 +251,26 @@ paths:
             $ref : '#/components/schemas/UserId'
         responses:
           '200':
-            description: Uset retrieved successfully
+            description: "Uset retrieved successfully"
             content:
               application/json:
                 schema:
                   $ref: '#/components/schemas/User'
           '400':
-            description: Bad Request
+            description: "Bad Request"
             content:
               application/json:
                 schema:
-                  description: Bad request
+                  description: "Bad request"
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
           '404':
-            description: Not Found
+            description: "Not Found"
             content:
               application/json:
                 schema:
-                  description: Not found
+                  description: "Not found"
                   example:
                     error: "Not Found"
                     message: "The requested user could not be found"
@@ -287,7 +288,7 @@ paths:
           schema:
             $ref : '#/components/schemas/UserId'
         requestBody:
-          description: takes the id of the person you want to ban and adds it to the banned array
+          description: "takes the id of the person you want to ban and adds it to the banned array"
           content:
             application/json:
               schema:
@@ -295,13 +296,13 @@ paths:
                 
         responses:
           '201':
-            description: User Banned
+            description: "User Banned"
           '400':
-            description: Bad Request
+            description: "Bad Request"
             content:
               application/json:
                 schema:
-                  description: Bad request
+                  description: "Bad request"
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -326,19 +327,19 @@ paths:
                 
         responses:
           '200':
-            description: banned user retrieved successfully
+            description: "banned user retrieved successfully"
             content:
               application/json:
                 schema:
                   $ref: '#/components/schemas/UserId'
           '204':
-            description: User unbanned
+            description: "User unbanned"
           '400':
-            description: Bad Request
+            description: "Bad Request"
             content:
               application/json:
                 schema:
-                  description: Bad request
+                  description: "Bad request"
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -351,13 +352,13 @@ paths:
                 
         responses:
           '204':
-            description: User unbanned
+            description: "User unbanned"
           '400':
-            description: Bad Request
+            description: "Bad Request"
             content:
               application/json:
                 schema:
-                  description: Bad Request
+                  description: "Bad Request"
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -375,7 +376,7 @@ paths:
         schema: 
           $ref : '#/components/schemas/UserId'
       requestBody:
-        description: takes the UserId of a user to follow
+        description: "takes the UserId of a user to follow"
         content:
           application/json:
             schema:
@@ -383,13 +384,13 @@ paths:
         required: true
       responses:
         '201':
-          description: User followed
+          description: "User followed"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -414,13 +415,13 @@ paths:
       
       responses:
         '204':
-          description: User unfollowed
+          description: "User unfollowed"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -432,7 +433,7 @@ paths:
         
         responses:
           '200':
-            description: follower retrieved successfully
+            description: "follower retrieved successfully"
             content:
               application/json:
                 schema:
@@ -442,12 +443,12 @@ paths:
             content:
               application/json:
                 schema:
-                  description: Bad request
+                  description: "Bad request"
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
           '404':
-            description: Not Found
+            description: "Not Found"
             content:
               application/json:
                 schema:
@@ -469,7 +470,7 @@ paths:
           schema: 
             $ref : '#/components/schemas/UserId'
       requestBody:
-        description: uploads a picture using postedImage schema
+        description: "uploads a picture using postedImage schema"
         content:
           application/json:
             schema:
@@ -477,13 +478,13 @@ paths:
         required: true
       responses:
         '201':
-          description: Post created
+          description: "Post created"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -507,22 +508,22 @@ paths:
       
       responses:
         '204':
-          description: Photo deleted successfully
+          description: "Photo deleted successfully"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
         '404':
-            description: Not Found
+            description: "Not Found"
             content:
               application/json:
                 schema:
-                  description: Not found
+                  description: "Not found"
                   example:
                     error: "Not Found"
                     message: "The image could not be found"
@@ -534,26 +535,26 @@ paths:
        
         responses:
           '200':
-            description: follower retrieved successfully
+            description: "follower retrieved successfully"
             content:
               application/json:
                 schema:
                   $ref: '#/components/schemas/postedImage'
           '400':
-            description: Bad Request
+            description: "Bad Request"
             content:
               application/json:
                 schema:
-                  description: Bad request
+                  description: "Bad request"
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
           '404':
-            description: Not Found
+            description: "Not Found"
             content:
               application/json:
                 schema:
-                  description: Not found
+                  description: "Not found"
                   example:
                     error: "Not Found"
                     message: "The requested user could not be found"              
@@ -570,7 +571,7 @@ paths:
           schema: 
             $ref : '#/components/schemas/UserId'
       requestBody:
-        description: takes in a comment object that will be appended to the comment array of specified picture
+        description: "takes in a comment object that will be appended to the comment array of specified picture"
         content:
           application/json:
             schema:
@@ -578,13 +579,13 @@ paths:
         required: true
       responses:
         '201':
-          description: Comment added
+          description: "Comment added"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad Request
+                description: "Bad Request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -614,13 +615,13 @@ paths:
      
       responses:
         '204':
-          description: Comment deleted
+          description: "Comment deleted"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -632,26 +633,26 @@ paths:
       description: "likes a photo"
       summary: add a like to a photo
       parameters:
-        - name: UserId
+        - name: "UserId"
           in: path
           required: true
           schema: 
             $ref : '#/components/schemas/UserId'
       requestBody:
-        description: takes in a like object 
+        description: "takes in a like object "
         content:
           application/json:
             schema:
               $ref : '#/components/schemas/like'
       responses: 
         '201':
-          description: like added
+          description: "like added"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -680,13 +681,13 @@ paths:
             $ref : '#/components/schemas/ObjId'
       responses: 
         '204':
-          description: unliked succesfully
+          description: "unliked succesfully"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -710,19 +711,19 @@ paths:
             $ref : '#/components/schemas/ObjId'
       responses: 
         '200':
-            description: follower retrieved successfully
+            description: "follower retrieved successfully"
             content:
               application/json:
                 schema:
                   $ref: '#/components/schemas/like'
         '204':
-          description: unliked succesfully
+          description: "unliked succesfully"
         '400':
-          description: Bad Request
+          description: "Bad Request"
           content:
             application/json:
               schema:
-                description: Bad request
+                description: "Bad request"
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"

@@ -110,9 +110,6 @@ export default {
       user: localStorage.getItem('username').replace('"', '').replace('"', ''),
     };
   },
-  beforeDestroy() {
-    window.removeEventListener('popstate', this.handleBackButton)
-  },
   mounted() {
     this.fetchProfileData();
     

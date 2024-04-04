@@ -25,5 +25,9 @@ func (rt *_router) postImage(w http.ResponseWriter, r *http.Request, ps httprout
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
-	w.Write([]byte("Post created"))
+	_, err = w.Write([]byte("Post created"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+
+	}
 }
