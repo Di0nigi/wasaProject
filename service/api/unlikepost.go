@@ -10,7 +10,7 @@ import (
 func (rt *_router) unLikePost(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	lk := ps.ByName("likeId")
 	id := ctx.User
-	ph := ps.ByName("photo")
+	ph := ps.ByName("PhotoId")
 
 	err := rt.db.DelLike(id, lk, ph)
 

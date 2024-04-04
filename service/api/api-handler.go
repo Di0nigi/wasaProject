@@ -30,15 +30,15 @@ func (rt *_router) Handler() http.Handler {
 	rt.router.GET("/userActions/:UserId/photoManager/:ObjId", rt.wrap(rt.getImage))
 	rt.router.DELETE("/userActions/:UserId/photoManager/:ObjId", rt.wrap(rt.deleteImage))
 
-	rt.router.POST("/userActions/:UserId/interactions/comments", rt.wrap(rt.commentPhoto))
+	rt.router.POST("/userActions/:UserId/interactions/postInteractions/manageComments", rt.wrap(rt.commentPhoto))
 
-	rt.router.DELETE("/userActions/:UserId/interactions/comments/:PhotoId/:commentId", rt.wrap(rt.unCommentPhoto))
+	rt.router.DELETE("/userActions/:UserId/interactions/postInteractions/:PhotoId/manageComments/:commentId", rt.wrap(rt.unCommentPhoto))
 
-	rt.router.POST("/userActions/:UserId/interactions/likes", rt.wrap(rt.likePost))
+	rt.router.POST("/userActions/:UserId/interactions/postInteractions/manageLikes", rt.wrap(rt.likePost))
 
-	rt.router.DELETE("/userActions/:UserId/interactions/likes/:photo/:likeId", rt.wrap(rt.unLikePost))
+	rt.router.DELETE("/userActions/:UserId/interactions/postInteractions/:PhotoId/manageLikes/:likeId", rt.wrap(rt.unLikePost))
 
-	rt.router.GET("/userActions/:UserId/interactions/likes/:photoId", rt.wrap(rt.getLikePost))
+	rt.router.GET("/userActions/:UserId/interactions/postInteractions/manageLikes/:photoId", rt.wrap(rt.getLikePost))
 
 	// Special routes
 	rt.router.GET("/liveness", rt.liveness)

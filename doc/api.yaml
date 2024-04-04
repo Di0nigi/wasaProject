@@ -23,7 +23,7 @@ components:
       properties:
         idObj:
           type: string
-          example: ["abcdef012345"]
+          example: "abcdef012345"
           minLength: 1 
           maxLength: 16
           pattern: 'ˆ.*?$'
@@ -35,7 +35,7 @@ components:
       properties:
         idUser:
           type: string
-          example: ["abcdef012345"]
+          example: "abcdef012345"
           minLength: 3
           maxLength: 16
           pattern: 'ˆ.*?$'
@@ -52,14 +52,14 @@ components:
           maxItems: 500
           items: 
             $ref : '#/components/schemas/UserId'
-          example: [['abcdef012345','abcdef012378']]
+          example: ['abcdef012345','abcdef012378']
         follows:
           type: array
           minItems: 0
           maxItems: 500
           items: 
             $ref : '#/components/schemas/UserId'
-          example: [['abcdef012345','abcdef012378']]
+          example: ['abcdef012345','abcdef012378']
         Posts:
           type: array
           minItems: 0
@@ -73,7 +73,7 @@ components:
           maxItems: 500
           items: 
             $ref : '#/components/schemas/UserId'
-          example: [['abcdef012345','abcdef012378']]
+          example: ['abcdef012345','abcdef012378']
         
  
     postedImage:
@@ -89,12 +89,12 @@ components:
           description: 'path to the image'
           type: string
           format: binary
-          example: ["0100100010111001"]
+          example: "0100100010111001"
           minLength: 0
           maxLength: 10000000000000000000
         likes:
           type: integer
-          example: [1]
+          example: 1
         comments: 
           type: array
           minItems: 0
@@ -103,7 +103,7 @@ components:
              $ref: '#/components/schemas/comment'
         numComments:
           type: integer
-          example: [1]
+          example: 1
           
     comment:
       title: Comment
@@ -116,7 +116,7 @@ components:
           type: string
           minLength: 3
           maxLength: 500
-          example: ["good picture!"]
+          example: "good picture!"
           pattern: 'ˆ.*?$'
         owner:
           $ref : '#/components/schemas/UserId'
@@ -152,7 +152,7 @@ paths:
               $ref : '#/components/schemas/UserId'    
         required: true
       responses:
-        '200':
+        '201':
           description: User log-in action successful
           content:
             application/json:
@@ -182,13 +182,14 @@ paths:
               
         required: true
       responses:
-        '204':
+        '201':
           description: Username created succesfully
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
+                description: bad request
                 example:
                   error:
                     code: bad_request
@@ -198,6 +199,7 @@ paths:
                       reason: Username must be at least 3 characters long.
         
     get:
+      description: "gets the stream"
       tags: ["getStream"]
       operationId: getMyStream
       summary: returns an array of postedImage
@@ -224,12 +226,14 @@ paths:
             content:
               application/json:
                 schema:
+                  description: not found
                   example:
                     error: "Not Found"
                     message: "The requested object could not be found"
                     
   /userActions/{UserId}/interactions/Profile/{AccountId}:
     get:
+        description: "gets the user"
         tags: ["getUser"]
         operationId: getUserProfile
         summary: returns an array of postedImage
@@ -256,6 +260,7 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Bad request
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -264,6 +269,7 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Not found
                   example:
                     error: "Not Found"
                     message: "The requested user could not be found"
@@ -288,13 +294,14 @@ paths:
                 $ref : '#/components/schemas/UserId'
                 
         responses:
-          '204':
+          '201':
             description: User Banned
           '400':
             description: Bad Request
             content:
               application/json:
                 schema:
+                  description: Bad request
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -331,6 +338,7 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Bad request
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -349,6 +357,7 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Bad Request
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -373,13 +382,14 @@ paths:
               $ref : '#/components/schemas/UserId'
         required: true
       responses:
-        '204':
+        '201':
           description: User followed
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -410,10 +420,12 @@ paths:
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
     get:
+        description: "gets a follower"
         tags: ["getFollower"]
         operationId: getFollower
         summary: returns a follower
@@ -430,6 +442,7 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Bad request
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -438,6 +451,7 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Not found
                   example:
                     error: "Not Found"
                     message: "The requested user could not be found"
@@ -462,13 +476,14 @@ paths:
               $ref: '#/components/schemas/postedImage'
         required: true
       responses:
-        '204':
+        '201':
           description: Post created
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -498,6 +513,7 @@ paths:
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
@@ -506,10 +522,12 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Not found
                   example:
                     error: "Not Found"
                     message: "The image could not be found"
     get:
+        description: "gets a single photo"
         tags: ["getPhoto"]
         operationId: getPhoto
         summary: returns a postedImage
@@ -526,6 +544,7 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Bad request
                   example:
                     error: "Bad Request"
                     message: "The request could not be processed due to invalid data or syntax error"
@@ -534,10 +553,11 @@ paths:
             content:
               application/json:
                 schema:
+                  description: Not found
                   example:
                     error: "Not Found"
                     message: "The requested user could not be found"              
-  /userActions/{UserId}/interactions/comments:
+  /userActions/{UserId}/interactions/postInteractions/manageComments:
     post:
       tags: ["comment"]
       operationId: commentPhoto
@@ -557,18 +577,19 @@ paths:
               $ref: '#/components/schemas/comment'
         required: true
       responses:
-        '204':
+        '201':
           description: Comment added
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
+                description: Bad Request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/comments/{PhotoId}/{commentId}:
+  /userActions/{UserId}/interactions/postInteractions/{PhotoId}/manageComments/{commentId}:
     delete:
       tags: ["uncomment"]
       operationId: uncommentPhoto
@@ -599,11 +620,12 @@ paths:
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/likes:
+  /userActions/{UserId}/interactions/postInteractions/manageLikes:
     post:
       tags: ["likes"]
       operationId: likePhoto
@@ -622,18 +644,19 @@ paths:
             schema:
               $ref : '#/components/schemas/like'
       responses: 
-        '204':
+        '201':
           description: like added
         '400':
           description: Bad Request
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
             
-  /userActions/{UserId}/interactions/likes/{photo}/{likeId}:
+  /userActions/{UserId}/interactions/postInteractions/{photo}/manageLikes/{likeId}:
     delete:
       tags: ["likes"]
       operationId: unlikePhoto
@@ -663,11 +686,12 @@ paths:
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
   
-  /userActions/{UserId}/interactions/likes/{photoId}:
+  /userActions/{UserId}/interactions/postInteractions/manageLikes/{photoId}:
     get:
       tags: ["likes"]
       operationId: getlikePhoto
@@ -698,6 +722,8 @@ paths:
           content:
             application/json:
               schema:
+                description: Bad request
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
+
