@@ -20,12 +20,23 @@
               </button>
             </div> 
     </div>
+    <div class="navigButton">
+      <button @click="toHome">HOME</button>
+      <button @click="toProfile">PROFILE</button>
+      <button @click="toLogout">LOGOUT</button>
+    </div>
   </div>
 
 
 </template>
 
 <style>
+.navigButton{
+  position:absolute;
+  left: 50%;
+  bottom: 0%;
+  transform: translate(-50%, -0%);
+}
 
 .layout{
   position: relative;
@@ -121,6 +132,19 @@ export default {
     this.fetchProfileData();
   },
   methods: {
+    reload(){
+    window.location.reload();
+  },
+    toHome(){
+      this.$router.push({path:'/'+this.user+'/home'});
+    },
+    toProfile(){
+      this.$router.push({path:'/'+this.user+'/profile'});
+    },
+    toLogout(){
+      this.$router.push({path:'/'});
+
+    },
 
     async ifBlocked(){
       try{

@@ -1,12 +1,23 @@
 <template>
   <div class="layout">
   <button class="homeButton" @click="backHome">Home</button>
+  <div class="navigButton">
+      <button @click="toHome">HOME</button>
+      <button @click="toProfile">PROFILE</button>
+      <button @click="toLogout">LOGOUT</button>
+  </div>
   </div>
 
 
 </template>
 
 <style>
+.navigButton{
+  position:absolute;
+  left: 50%;
+  bottom: 0%;
+  transform: translate(-50%, -0%);
+}
 .layout{
   position: relative;
   height: 100vh;
@@ -38,6 +49,16 @@ export default {
     
   },
   methods: {
+    toHome(){
+      this.$router.push({path:'/'+this.user+'/home'});
+    },
+    toProfile(){
+      this.$router.push({path:'/'+this.user+'/profile'});
+    },
+    toLogout(){
+      this.$router.push({path:'/'});
+
+    },
     backHome(){
       this.$router.push({path:'/'+this.user+'/home'});
 

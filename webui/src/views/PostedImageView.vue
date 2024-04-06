@@ -21,11 +21,22 @@
       </div>
       </div>
     </div>
+    <div class="navigButton">
+      <button @click="toHome">HOME</button>
+      <button @click="toProfile">PROFILE</button>
+      <button @click="toLogout">LOGOUT</button>
+    </div>
   </div>
 
 </template>
 
 <style>
+.navigButton{
+  position:absolute;
+  left: 50%;
+  bottom: 0%;
+  transform: translate(-50%, -0%);
+}
 .layout{
   flex-shrink: 0; 
   position: relative;
@@ -100,12 +111,26 @@ export default {
     console.log("called");
   },
 methods: {
+  reload(){
+    window.location.reload();
+  },
+  toHome(){
+      this.$router.push({path:'/'+this.user+'/home'});
+    },
+    toProfile(){
+      this.$router.push({path:'/'+this.user+'/profile'});
+    },
+    toLogout(){
+      this.$router.push({path:'/'});
+
+    },
   async delComment(commId,owner){
     if (this.user==owner){
 
     console.log(commId);
     const response7= await this.$axios.delete("/userActions/"+this.user+"/interactions/postInteractions/"+this.photoId+"/manageComments/"+commId,{ headers: {"Authorization" : this.user}});
-    console.log(response7);}
+    console.log(response7);
+    this.reload();}
     
   },
   async checkLikevalidity(){
@@ -127,7 +152,9 @@ methods: {
     if(this.valLike==false){
       this.generateRandomString();
     const response3 = await this.$axios.post("/userActions/"+this.user+"/interactions/postInteractions/manageLikes",JSON.stringify({idLike: { idObj: this.randomString}, owner: {idUser: this.user}, toPhoto: { idObj: this.photoId}}),{ headers: {"Authorization" : this.user}});
-    console.log(response3);}
+    console.log(response3);
+    this.reload();}
+    
   },
   async UnLikePost(){
     await this.checkLikevalidity();
@@ -136,7 +163,10 @@ methods: {
     const response6 = await this.$axios.get("/userActions/"+this.user+"/interactions/postInteractions/manageLikes/"+this.photoId,{ headers: {"Authorization" : this.user}});
     console.log(response6);
     const response5 = await this.$axios.delete("/userActions/"+this.user+"/interactions/postInteractions/"+this.photoId+"/manageLikes/"+response6.data.idLike.idObj,{ headers: {"Authorization" : this.user}});
-    console.log(response5);}
+    console.log(response5);
+    this.reload();
+    }
+    
 
   },
   generateRandomString() {
@@ -170,6 +200,7 @@ methods: {
       const response2 = await this.$axios.post("/userActions/"+this.user+"/interactions/postInteractions/manageComments",JSON.stringify({idComment: { idObj: this.randomString }, content: this.inputText, owner: {idUser: this.user}, photo: {idObj: this.photoId} }),{ headers: {"Authorization" : this.user}});
       console.log(JSON.stringify({idComment: { idObj: this.randomString }, content: this.inputText, owner: {idUser: this.user}, photo: {idObj: this.photoId} }));
       console.log(response2);
+      this.reload();
     },
   }
 };

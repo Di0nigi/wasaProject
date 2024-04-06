@@ -8,6 +8,10 @@
       </div>
     </div>
     <div class= "changUsername">
+        <div v-if="showAlert" class="alert">
+            {{ alertMessage }}
+        <button @click="hideAlert">Close</button>
+      </div>
       <button class changeUsButton @click="changeUser">Change username</button>
       <input type="text" v-model="inputText" class="txtInp">
     </div>
@@ -26,12 +30,35 @@
               </button>
             </div> 
     </div>
+    <div class="navigButton">
+      <button @click="toHome">HOME</button>
+      <button @click="toProfile">HERE</button>
+      <button @click="toLogout">LOGOUT</button>
+    </div>
+
+
   </div>
 
 
 </template>
 
 <style>
+.alert{
+  position: absolute;
+  left:0;
+  bottom:0;
+  color: rgba(255,255,255,100);
+  padding-bottom: 10px;
+
+}
+.navigButton{
+  position:absolute;
+  left: 50%;
+  bottom: 0%;
+  transform: translate(-50%, -0%);
+  
+
+}
 
 .layout{
   position: relative;
@@ -97,6 +124,8 @@ import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      showAlert: false,
+      alertMessage: 'USER ALREADY EXISTS!',
       inputText: "",
       randomString: "1",
       binaryIm:"10",
@@ -112,11 +141,35 @@ export default {
   },
   mounted() {
     this.fetchProfileData();
-    
     window.addEventListener('popstate', this.handleBackButton);
 
   },
   methods: {
+    reload(){
+    window.location.reload();
+    },
+    toHome(){
+      this.$router.push({path:'/'+this.user+'/home'});
+    },
+    toProfile(){
+      this.$router.push({path:'/'+this.user+'/profile'});
+    },
+    toLogout(){
+      this.$router.push({path:'/'});
+
+    },
+    launchAlert(){
+      
+      this.showAlert = true;
+
+    },
+    hideAlert() {
+      this.showAlert = false;
+    },
+
+
+
+
     handleBackButton() {
       // Perform your custom action when the back button is pressed
       // For example, navigate to the "NewPage" component
@@ -125,17 +178,24 @@ export default {
     
     async changeUser(){
       if(this.inputText!=""){
+      try{
       const response10 = await this.$axios.post("/userActions/"+this.user,JSON.stringify({idUser: this.inputText}),{ headers: {"Authorization" : this.user}});
       console.log(response10);
       localStorage.setItem('username', JSON.stringify(this.inputText));
       this.user=localStorage.getItem('username').replace('"', '').replace('"', '');
       this.$router.push({path:'/'+this.user+'/profile'});
+      
+      }
+      catch(error){
+        this.launchAlert();
+      }
       }
 
     },
     async rightClickDel(photoName){ 
     const response7= await this.$axios.delete("/userActions/"+this.user+"/photoManager/"+photoName,{ headers: {"Authorization" : this.user}});
     console.log(response7);
+    this.reload();
 
     },
     toComm(photoName){
@@ -151,6 +211,7 @@ export default {
       this.file = event.target.files[0];
       console.log(this.file);
       this.filePreview = URL.createObjectURL(this.file)
+      
     },
     generateRandomString() {
       const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -169,6 +230,7 @@ export default {
       const response2 = await this.$axios.post("/userActions/"+this.user+"/photoManager",JSON.stringify({idPhoto: { idObj: this.randomString }, owner: {idUser: this.user}, image: this.binaryIm, likes: 0, comments: null, numComments: 0}),{ headers: {"Authorization" : this.user}});
       console.log("here");
       console.log(response2);
+      this.reload();
       
     },
     async convertToBinaryString() {

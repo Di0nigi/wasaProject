@@ -17,8 +17,11 @@
                 <img :src=photo.url alt="Uploadedphoto">
               </button>
             </div> 
-
-
+    </div>
+    <div class="navigButton">
+      <button @click="toHome">HERE</button>
+      <button @click="toProfile">PROFILE</button>
+      <button @click="toLogout">LOGOUT</button>
     </div>
   </div>
 
@@ -44,6 +47,16 @@ export default {
 
   },
   methods: {
+    toHome(){
+      this.$router.push({path:'/'+this.user+'/home'});
+    },
+    toProfile(){
+      this.$router.push({path:'/'+this.user+'/profile'});
+    },
+    toLogout(){
+      this.$router.push({path:'/'});
+
+    },
     toOwnerProfile(profileName){
       this.$router.push({path:'/'+this.user+'/profile/iteract/'+profileName});
 
@@ -62,10 +75,12 @@ export default {
         const response6 = await this.$axios.get("/userActions/"+response5.data.follows[i].idUser, { headers: {"Authorization" : response5.data.follows[i].idUser}});
         if(response6.data!=null){
         console.log(response6.data);
-        var im= new slideShowim(response6.data.slice(-1)[0].idPhoto.idObj,response6.data.slice(-1)[0].image);
-        im.owner=response5.data.follows[i].idUser;
-        this.streamStack.push(im);}
-      }
+        for(let j=0; j<response6.data.length;j++){
+          var im= new slideShowim(response6.data[j].idPhoto.idObj,response6.data[j].image);
+          im.owner=response5.data.follows[i].idUser;
+          this.streamStack.push(im);}
+          }
+        }
       }
 
     },
@@ -94,6 +109,12 @@ export default {
 </script>
 
 <style scoped>
+.navigButton{
+  position:absolute;
+  left: 50%;
+  bottom: 0%;
+  transform: translate(-50%, -0%);
+}
 .container{
   position:relative;
   width: 100vw;
