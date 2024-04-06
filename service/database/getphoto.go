@@ -35,7 +35,7 @@ func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 		}
 		currentPost.Comments = commArray
 	}
-	if rows.Err != nil {
+	if err = rows.Err(); err != nil {
 		return err, currentPost
 
 	}
