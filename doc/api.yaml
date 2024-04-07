@@ -4,6 +4,24 @@ info:
   description: |-
     A photo sharing website to post comment and like yours and yours friends pictures.
   version: "1"
+
+tags:
+  - name: setUsername
+  - name: getStream
+  - name: getUser
+  - name: ban
+  - name: unBan
+  - name: getBan
+  - name: follow
+  - name: unfollow
+  - name: getFollower
+  - name: postImage
+  - name: deletePhoto
+  - name: getPhoto
+  - name: comment
+  - name: uncomment
+  - name: likes
+
 security:
   - bearerAuth: []
 
@@ -23,7 +41,7 @@ components:
       properties:
         idObj:
           type: string
-          example: "abcdef012345"
+          example: "abcde-f012345"
           minLength: 1 
           maxLength: 16
           pattern: 'ˆ.*?$'
@@ -35,7 +53,7 @@ components:
       properties:
         idUser:
           type: string
-          example: "abcdef012345"
+          example: "abcdef01234_5"
           minLength: 3
           maxLength: 16
           pattern: 'ˆ.*?$'
@@ -66,7 +84,7 @@ components:
           maxItems: 500
           items:
             $ref : '#/components/schemas/ObjId'
-          example: 10
+          example: [10]
         blockedArray:
           type: array
           minItems: 0
@@ -92,6 +110,7 @@ components:
           example: "0100100010111001"
           minLength: 0
           maxLength: 10000000000000000000
+          pattern: 'ˆ.*?$'
         likes:
           type: integer
           example: 1
@@ -116,7 +135,7 @@ components:
           type: string
           minLength: 3
           maxLength: 500
-          example: "good picture!"
+          example: "good picture 12-!"
           pattern: 'ˆ.*?$'
         owner:
           $ref : '#/components/schemas/UserId'
@@ -183,7 +202,11 @@ paths:
         required: true
       responses:
         '201':
-          description: "Username created succesfully"
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref : '#/components/schemas/UserId'
         '400':
           description: "Bad Request"
           content:
@@ -219,9 +242,11 @@ paths:
           description: "Bad Request"
           content:
             application/json:
-              example:
-                error: "Bad Request"
-                message: "The request could not be processed due to invalid data or syntax error"
+              schema:
+                description: "bad request"
+                example:
+                  error: "Bad Request"
+                  message: "The request could not be processed due to invalid data or syntax error"
         '404':
             description: "Not Found"
             content:
@@ -296,7 +321,11 @@ paths:
                 
         responses:
           '201':
-            description: "User Banned"
+            description: "User log-in action successful"
+            content:
+              application/json:
+                schema:
+                  $ref : '#/components/schemas/UserId'
           '400':
             description: "Bad Request"
             content:
@@ -384,7 +413,11 @@ paths:
         required: true
       responses:
         '201':
-          description: "User followed"
+            description: "User log-in action successful"
+            content:
+              application/json:
+                schema: 
+                  $ref : '#/components/schemas/UserId'
         '400':
           description: "Bad Request"
           content:
@@ -478,7 +511,11 @@ paths:
         required: true
       responses:
         '201':
-          description: "Post created"
+            description: "User log-in action successful"
+            content:
+              application/json:
+                schema: 
+                  $ref: '#/components/schemas/postedImage'
         '400':
           description: "Bad Request"
           content:
@@ -558,7 +595,7 @@ paths:
                   example:
                     error: "Not Found"
                     message: "The requested user could not be found"              
-  /userActions/{UserId}/interactions/postInteractions/manageComments:
+  /userActions/{UserId}/interactions/postInteractions/managerComments:
     post:
       tags: ["comment"]
       operationId: commentPhoto
@@ -579,7 +616,11 @@ paths:
         required: true
       responses:
         '201':
-          description: "Comment added"
+            description: "User log-in action successful"
+            content:
+              application/json:
+                schema: 
+                  $ref: '#/components/schemas/comment'
         '400':
           description: "Bad Request"
           content:
@@ -590,7 +631,7 @@ paths:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/postInteractions/{PhotoId}/manageComments/{commentId}:
+  /userActions/{UserId}/interactions/postInteractions/{PhotoId}/managerComments/{commentId}:
     delete:
       tags: ["uncomment"]
       operationId: uncommentPhoto
@@ -626,7 +667,7 @@ paths:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
                 
-  /userActions/{UserId}/interactions/postInteractions/manageLikes:
+  /userActions/{UserId}/interactions/postInteractions/managerLikes:
     post:
       tags: ["likes"]
       operationId: likePhoto
@@ -646,7 +687,11 @@ paths:
               $ref : '#/components/schemas/like'
       responses: 
         '201':
-          description: "like added"
+            description: "User log-in action successful"
+            content:
+              application/json:
+                schema:
+                  $ref : '#/components/schemas/like'
         '400':
           description: "Bad Request"
           content:
@@ -657,7 +702,7 @@ paths:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
             
-  /userActions/{UserId}/interactions/postInteractions/{photo}/manageLikes/{likeId}:
+  /userActions/{UserId}/interactions/postInteractions/{photo}/managerLikes/{likeId}:
     delete:
       tags: ["likes"]
       operationId: unlikePhoto
@@ -692,7 +737,7 @@ paths:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
   
-  /userActions/{UserId}/interactions/postInteractions/manageLikes/{photoId}:
+  /userActions/{UserId}/interactions/postInteractions/managerLikes/{photoId}:
     get:
       tags: ["likes"]
       operationId: getlikePhoto
@@ -727,4 +772,5 @@ paths:
                 example:
                   error: "Bad Request"
                   message: "The request could not be processed due to invalid data or syntax error"
+
 

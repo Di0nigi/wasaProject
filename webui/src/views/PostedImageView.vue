@@ -128,14 +128,14 @@ methods: {
     if (this.user==owner){
 
     console.log(commId);
-    const response7= await this.$axios.delete("/userActions/"+this.user+"/interactions/postInteractions/"+this.photoId+"/manageComments/"+commId,{ headers: {"Authorization" : this.user}});
+    const response7= await this.$axios.delete("/userActions/"+this.user+"/interactions/postInteractions/"+this.photoId+"/managerComments/"+commId,{ headers: {"Authorization" : this.user}});
     console.log(response7);
     this.reload();}
     
   },
   async checkLikevalidity(){
     try{
-    const response4 = await this.$axios.get("/userActions/"+this.user+"/interactions/postInteractions/manageLikes/"+this.photoId,{ headers: {"Authorization" : this.user}});
+    const response4 = await this.$axios.get("/userActions/"+this.user+"/interactions/postInteractions/managerLikes/"+this.photoId,{ headers: {"Authorization" : this.user}});
     console.log(response4);
     if (response4.status == 200  || response4.status == 204) {
       this.valLike=true;
@@ -151,7 +151,7 @@ methods: {
     console.log(this.valLike);
     if(this.valLike==false){
       this.generateRandomString();
-    const response3 = await this.$axios.post("/userActions/"+this.user+"/interactions/postInteractions/manageLikes",JSON.stringify({idLike: { idObj: this.randomString}, owner: {idUser: this.user}, toPhoto: { idObj: this.photoId}}),{ headers: {"Authorization" : this.user}});
+    const response3 = await this.$axios.post("/userActions/"+this.user+"/interactions/postInteractions/managerLikes",JSON.stringify({idLike: { idObj: this.randomString}, owner: {idUser: this.user}, toPhoto: { idObj: this.photoId}}),{ headers: {"Authorization" : this.user}});
     console.log(response3);
     this.reload();}
     
@@ -160,9 +160,9 @@ methods: {
     await this.checkLikevalidity();
     console.log(this.valLike);
     if (this.valLike==true){
-    const response6 = await this.$axios.get("/userActions/"+this.user+"/interactions/postInteractions/manageLikes/"+this.photoId,{ headers: {"Authorization" : this.user}});
+    const response6 = await this.$axios.get("/userActions/"+this.user+"/interactions/postInteractions/managerLikes/"+this.photoId,{ headers: {"Authorization" : this.user}});
     console.log(response6);
-    const response5 = await this.$axios.delete("/userActions/"+this.user+"/interactions/postInteractions/"+this.photoId+"/manageLikes/"+response6.data.idLike.idObj,{ headers: {"Authorization" : this.user}});
+    const response5 = await this.$axios.delete("/userActions/"+this.user+"/interactions/postInteractions/"+this.photoId+"/managerLikes/"+response6.data.idLike.idObj,{ headers: {"Authorization" : this.user}});
     console.log(response5);
     this.reload();
     }
@@ -197,7 +197,7 @@ methods: {
     },
     async uploadComment(){
       this.generateRandomString();
-      const response2 = await this.$axios.post("/userActions/"+this.user+"/interactions/postInteractions/manageComments",JSON.stringify({idComment: { idObj: this.randomString }, content: this.inputText, owner: {idUser: this.user}, photo: {idObj: this.photoId} }),{ headers: {"Authorization" : this.user}});
+      const response2 = await this.$axios.post("/userActions/"+this.user+"/interactions/postInteractions/managerComments",JSON.stringify({idComment: { idObj: this.randomString }, content: this.inputText, owner: {idUser: this.user}, photo: {idObj: this.photoId} }),{ headers: {"Authorization" : this.user}});
       console.log(JSON.stringify({idComment: { idObj: this.randomString }, content: this.inputText, owner: {idUser: this.user}, photo: {idObj: this.photoId} }));
       console.log(response2);
       this.reload();
