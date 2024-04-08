@@ -16,7 +16,13 @@ func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.P
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	ret, err := rt.db.GetUserID(User.IDUser)
+	ret, errs := rt.db.GetUserID(User.IDUser)
+
+	if errs != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+
+	}
 
 	if !ret {
 		err = rt.db.CreateUser(User.IDUser)

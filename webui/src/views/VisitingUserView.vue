@@ -196,9 +196,6 @@ export default {
         let response14 = await this.$axios.delete("/userActions/"+this.profileId+"/interactions/followingActions/"+this.user,{ headers: {"Authorization" : this.profileId}});
         console.log(response14);
 
-
-
-
       }
 
 

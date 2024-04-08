@@ -19,20 +19,20 @@
     <div class="photoUp">
         <input type="file" @change="handleFileUpload" ref="fileInput" accept="image/*" style="display: none;">
         <button @click="openFileInput">Choose File</button>
-        <button @click="uploadPhoto">Upload</button>
+        <button @click="uploadPhoto" v-if="file!=null">Upload</button>
         <div class="photo"></div>
     </div>
 
     <div class="photo-stack">
             <div class="photo-container" v-for="(photo, index) in stack" :key="index">
-              <button class="buttonIm" @click="toComm(photo.id)" @contextmenu.prevent="rightClickDel(photo.id)">
+              <button class="buttonIm" @click="toComm(photo.id)">
                 <img :src=photo.url alt="Uploadedphoto">
               </button>
+              <button class="deButton" @click="rightClickDel(photo.id)">Delete</button >
             </div> 
     </div>
     <div class="navigButton">
       <button @click="toHome">HOME</button>
-      <button @click="toProfile">HERE</button>
       <button @click="toLogout">LOGOUT</button>
     </div>
 
@@ -151,9 +151,6 @@ export default {
     toHome(){
       this.$router.push({path:'/'+this.user+'/home'});
     },
-    toProfile(){
-      this.$router.push({path:'/'+this.user+'/profile'});
-    },
     toLogout(){
       this.$router.push({path:'/'});
 
@@ -255,8 +252,6 @@ export default {
     };
      reader.readAsDataURL(this.file);
      });
-      
-     
   },
     async fetchProfileData() {
       try {

@@ -19,7 +19,6 @@
             </div> 
     </div>
     <div class="navigButton">
-      <button @click="toHome">HERE</button>
       <button @click="toProfile">PROFILE</button>
       <button @click="toLogout">LOGOUT</button>
     </div>
@@ -47,9 +46,6 @@ export default {
 
   },
   methods: {
-    toHome(){
-      this.$router.push({path:'/'+this.user+'/home'});
-    },
     toProfile(){
       this.$router.push({path:'/'+this.user+'/profile'});
     },
