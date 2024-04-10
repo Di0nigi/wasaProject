@@ -133,6 +133,7 @@ export default {
 .warning{
   color: rgba(255,255,255,100);
 }
+
 .photoOwner{
   padding-top:0px;
   
