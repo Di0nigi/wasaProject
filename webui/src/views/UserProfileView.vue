@@ -181,10 +181,12 @@ export default {
       localStorage.setItem('username', JSON.stringify(this.inputText));
       this.user=localStorage.getItem('username').replace('"', '').replace('"', '');
       this.$router.push({path:'/'+this.user+'/profile'});
+      //this.reload();
       
       }
       catch(error){
         this.launchAlert();
+        //this.reload();
       }
       }
 

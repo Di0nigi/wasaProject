@@ -177,6 +177,7 @@ export default {
         const response12 = await this.$axios.delete("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.user}});
         console.log(response12);
         this.blockState="Block";
+        this.reload();
       }
       else{
         console.log(this.blkVal);
@@ -191,10 +192,14 @@ export default {
         let response13 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.user}});
         console.log(response13);
         this.followState="Follow";
-         this.btKey++;
+         /*this.btKey++;*/
+         this.reload();
         }
+        console.log("here should unfollow");
         let response14 = await this.$axios.delete("/userActions/"+this.profileId+"/interactions/followingActions/"+this.user,{ headers: {"Authorization" : this.profileId}});
         console.log(response14);
+        console.log("here should unfollow2");
+        this.reload();
 
       }
 
@@ -228,7 +233,8 @@ export default {
         console.log(response9);
         this.followState="Unfollow";
         
-        this.btKey++;}
+        /* this.btKey++;*/}
+        this.reload();
         }
       else{
         let response10 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.user}});
@@ -236,7 +242,8 @@ export default {
         this.followState="Follow";
         
         
-        this.btKey++;
+        /* this.btKey++;*/
+        this.reload();
       }
     },
     toComm(photoName){
@@ -260,13 +267,13 @@ export default {
           console.log(this.followVal);*/
           this.followState="Follow";
           console.log("should be follow");
-          this.btKey++;
+          /* this.btKey++;*/
         }else{
          /* console.log("false? ");
           console.log(this.followVal);*/
           this.followState="Unfollow";
           console.log("should be Unfollow");
-          this.btKey++;
+          /*this.btKey++;*/
         }
         const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.profileId, { headers: {"Authorization" : this.profileId}});
         console.log(response.data);

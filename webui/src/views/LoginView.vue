@@ -37,15 +37,7 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-    font-family: "VP Pixel W03 Bold";
-    src: url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.eot");
-    src: url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.eot?#iefix")format("embedded-opentype"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.woff2")format("woff2"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.woff")format("woff"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.ttf")format("truetype"),
-    url("https://db.onlinewebfonts.com/t/a59a2fbd8417fe68d1259c51f8f03313.svg#VP Pixel W03 Bold")format("svg");
-}
+
 .container {
   display: flex;
   justify-content: center;
@@ -65,10 +57,8 @@ export default {
 
 }
 .title{
-  
-  color: rgba(255, 255, 255, 100);/* Change the color of the heading text */
-  font-family: "VP Pixel W03 Bold"; /* Change the font family of the heading text */
-  font-size: 120px; /* Change the font size of the heading text */
+  color: rgba(255,255,255,100);
+  font-size: 120px; 
   
 }
 
