@@ -180,8 +180,8 @@ export default {
       console.log(response10);
       localStorage.setItem('username', JSON.stringify(this.inputText));
       this.user=localStorage.getItem('username').replace('"', '').replace('"', '');
-      this.$router.push({path:'/'+this.user+'/profile'});
-      //this.reload();
+      
+      this.reload();
       
       }
       catch(error){
@@ -257,10 +257,12 @@ export default {
   },
     async fetchProfileData() {
       try {
+        this.$router.push({path:'/'+this.user+'/profile'});
         const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.user, { headers: {"Authorization" : this.user}});
         console.log(response.data);
         //this.profileData.id = response.data.id.userId*/
-        this.profilename =response.data.id.idUser;
+        this.profilename =localStorage.getItem('username').replace('"', '').replace('"', '');
+        console.log(this.profileName);
         if (response.data.followers==null){
           this.followers=0;
         }

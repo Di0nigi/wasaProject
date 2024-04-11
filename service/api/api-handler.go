@@ -30,9 +30,9 @@ func (rt *_router) Handler() http.Handler {
 	rt.router.GET("/userActions/:UserId/photoManager/:ObjId", rt.wrap(rt.getImage))
 	rt.router.DELETE("/userActions/:UserId/photoManager/:ObjId", rt.wrap(rt.deleteImage))
 
-	rt.router.POST("/userActions/:UserId/interactions/postInteractions/Comments", rt.wrap(rt.commentPhoto))
+	rt.router.POST("/userActions/:UserId/interactions/postInteractions/managerComments", rt.wrap(rt.commentPhoto))
 
-	rt.router.DELETE("/userActions/:UserId/interactions/postInteractions/:PhotoId/Comments/:commentId", rt.wrap(rt.unCommentPhoto))
+	rt.router.DELETE("/userActions/:UserId/interactions/postInteractions/:PhotoId/managerComments/:commentId", rt.wrap(rt.unCommentPhoto))
 
 	rt.router.POST("/userActions/:UserId/interactions/postInteractions/managerLikes", rt.wrap(rt.likePost))
 
