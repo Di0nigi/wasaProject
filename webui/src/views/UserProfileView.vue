@@ -234,7 +234,7 @@ export default {
       const response2 = await this.$axios.post("/userActions/"+this.user+"/photoManager",JSON.stringify({idPhoto: { idObj: this.randomString }, owner: {idUser: this.user}, image: this.binaryIm, likes: 0, comments: null, numComments: 0, Date: dateString}),{ headers: {"Authorization" : this.user}});
       console.log("here");
       console.log(response2);
-      //this.reload();
+      this.reload();
       
     },
     async convertToBinaryString() {

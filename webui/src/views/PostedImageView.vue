@@ -188,7 +188,7 @@ methods: {
       this.photoId=phId;
       const response = await this.$axios.get("/userActions/"+this.user+"/photoManager/"+phId, { headers: {"Authorization" : this.user}});
       console.log(response.data);
-      this.photoDate=response.data.date;
+      this.photoDate=response.data.Date;
       console.log(this.photoDate);
       this.photo=response.data.image;
       if (response.data.comments!=null){

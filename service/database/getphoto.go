@@ -1,7 +1,5 @@
 package database
 
-import "fmt"
-
 func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 
 	var currentPost PostedImage
@@ -11,9 +9,8 @@ func (db *appdbimpl) GetPhoto(id string, photoId string) (error, PostedImage) {
 		return err, currentPost
 	}
 	for rows.Next() {
-		err = rows.Scan(&currentPost.IDPhoto.IDObj, &currentPost.Owner.IDUser, &currentPost.Image, &currentPost.Likes, &currentPost.NumComments, &currentPost.date)
-		fmt.Printf(currentPost.date)
-		fmt.Printf("here is date")
+		err = rows.Scan(&currentPost.IDPhoto.IDObj, &currentPost.Owner.IDUser, &currentPost.Image, &currentPost.Likes, &currentPost.NumComments, &currentPost.Date)
+
 		if err != nil {
 			return err, currentPost
 		}
