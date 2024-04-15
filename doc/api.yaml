@@ -123,6 +123,12 @@ components:
         numComments:
           type: integer
           example: 1
+        date: 
+          type: string
+          example: "24-10-2020"
+          minLength: 3
+          maxLength: 16
+          pattern: 'ˆ.*?$'
           
     comment:
       title: Comment

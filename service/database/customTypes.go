@@ -23,6 +23,7 @@ type PostedImage struct {
 	Likes       int       `json:"likes"`
 	Comments    []Comment `json:"comments"`
 	NumComments int       `json:"numComments"`
+	date        string    `json:"Date"`
 }
 
 type Comment struct {

@@ -110,7 +110,7 @@ func New(db *sql.DB) (AppDatabase, error) {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
 
-	query = `CREATE TABLE IF NOT EXISTS PostedImages (PhotoId TEXT PRIMARY KEY, ownerId TEXT,imageData VARBINARY(100000), likes INTEGER, numComments INTEGER);`
+	query = `CREATE TABLE IF NOT EXISTS PostedImages (PhotoId TEXT PRIMARY KEY, ownerId TEXT,imageData VARBINARY(100000), likes INTEGER, numComments INTEGER, date TEXT);`
 	_, err = db.Exec(query)
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)

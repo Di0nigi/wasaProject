@@ -3,6 +3,7 @@ package api
 import (
 	"encoding/json"
 	"net/http"
+	"fmt"
 
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/api/reqcontext"
 	"git.sapienzaapps.it/fantasticcoffee/fantastic-coffee-decaffeinated/service/database"
@@ -18,6 +19,7 @@ func (rt *_router) postImage(w http.ResponseWriter, r *http.Request, ps httprout
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+	fmt.Printf(post.date)
 
 	err = rt.db.AddPost(id, post)
 	if err != nil {

@@ -124,6 +124,7 @@ import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      currentDate: null,
       showAlert: false,
       alertMessage: 'USER ALREADY EXISTS!',
       inputText: "",
@@ -226,10 +227,14 @@ export default {
       this.generateRandomString();
       console.log(this.randomString);
       await this.convertToBinaryString();
-      const response2 = await this.$axios.post("/userActions/"+this.user+"/photoManager",JSON.stringify({idPhoto: { idObj: this.randomString }, owner: {idUser: this.user}, image: this.binaryIm, likes: 0, comments: null, numComments: 0}),{ headers: {"Authorization" : this.user}});
+      this.currentDate= new Date();
+      const dateString = this.currentDate.getDate() + '-' + (this.currentDate.getMonth() + 1) + '-' +  this.currentDate.getFullYear();
+      console.log("this is the date:");
+      console.log(dateString);
+      const response2 = await this.$axios.post("/userActions/"+this.user+"/photoManager",JSON.stringify({idPhoto: { idObj: this.randomString }, owner: {idUser: this.user}, image: this.binaryIm, likes: 0, comments: null, numComments: 0, Date: dateString}),{ headers: {"Authorization" : this.user}});
       console.log("here");
       console.log(response2);
-      this.reload();
+      //this.reload();
       
     },
     async convertToBinaryString() {

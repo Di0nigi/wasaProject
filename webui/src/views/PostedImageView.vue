@@ -8,6 +8,7 @@
     </div>
     <div class="imageContainer">
     <img :src=photo alt="Uploadedphoto">
+    <p class="date">{{ photoDate }}</p>
     </div>
     <div class="comments">
       <div class= "make comment">
@@ -31,6 +32,9 @@
 </template>
 
 <style>
+.date{
+  color: rgba(255,255,255,100);
+}
 .navigButton{
   position:absolute;
   left: 50%;
@@ -96,6 +100,7 @@ import { dispComment } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      photoDate:"null",
       valLike:false,
       commStack:[],
       photoId: "",
@@ -183,6 +188,8 @@ methods: {
       this.photoId=phId;
       const response = await this.$axios.get("/userActions/"+this.user+"/photoManager/"+phId, { headers: {"Authorization" : this.user}});
       console.log(response.data);
+      this.photoDate=response.data.date;
+      console.log(this.photoDate);
       this.photo=response.data.image;
       if (response.data.comments!=null){
         for(let i=0; i<response.data.comments.length; i++){
