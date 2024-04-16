@@ -36,6 +36,7 @@ export default {
       streamStack:[],
       pageTitle: "WasaPhoto",
       user: localStorage.getItem('username').replace('"', '').replace('"', ''),
+      tk: localStorage.getItem('token'),
       inputText: "",
       userNotfound:false,
       warnKey:0,
@@ -62,13 +63,15 @@ export default {
     },
     async fetchData(){
       console.log("fetched");
-      const response5 = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.user, { headers: {"Authorization" : this.user}});
+      const response5 = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.user, { headers: {"Authorization" : this.tk}});
       console.log(response5.data);
       console.log("jdjd");
       if(response5.data.follows!=null){
       for(let i=0; i<response5.data.follows.length;i++){
-        console.log("eme"+i);
-        const response6 = await this.$axios.get("/userActions/"+response5.data.follows[i].idUser, { headers: {"Authorization" : response5.data.follows[i].idUser}});
+        var tempResponse = await this.$axios.post("/session", { idUser: response5.data.follows[i].idUser });
+        console.log(tempResponse.data);
+        var tempTk = tempResponse.data;
+        const response6 = await this.$axios.get("/userActions/"+response5.data.follows[i].idUser, { headers: {"Authorization" : tempTk}});
         if(response6.data!=null){
         console.log(response6.data);
         for(let j=0; j<response6.data.length;j++){
@@ -86,7 +89,7 @@ export default {
     },
     async searchUser(){
       try{
-        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.inputText, { headers: {"Authorization" : this.user}});
+        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.inputText, { headers: {"Authorization" : this.tk}});
         console.log(response.data);
         this.userNotfound=false;
         this.$router.push({path: '/'+this.user+'/profile/iteract/'+response.data.id.idUser});

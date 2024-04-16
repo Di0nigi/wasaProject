@@ -10,6 +10,7 @@ import (
 
 func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.Params, ctx reqcontext.RequestContext) {
 	var User UserId
+	var tk string
 	err := json.NewDecoder(r.Body).Decode(&User)
 
 	if err != nil {
@@ -25,14 +26,25 @@ func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.P
 	}
 
 	if !ret {
-		err = rt.db.CreateUser(User.IDUser)
+		err, tk = rt.db.CreateUser(User.IDUser)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+	}else{
+		err, tk = rt.db.GetUserToken(User.IDUser)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
+	jsontk ,errs:=json.Marshal(tk)
+	if errs != nil {
+		http.Error(w, errs.Error(), http.StatusInternalServerError)
+		return
+	}
 	w.Header().Set("content-type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	_ = json.NewEncoder(w).Encode(User)
+	w.Write(jsontk)
 
 }

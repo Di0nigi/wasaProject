@@ -63,18 +63,7 @@ export default {
       this.$router.push({path:'/'+this.user+'/home'});
 
     },
-    /*async fetchProfileData() {
-        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.profileId, { headers: {"Authorization" : this.profileId}});
-        console.log(response.data);
-        this.profilename =response.data.id.idUser;
-        if (response.data.followers==null){
-          this.followers=0;}
-        else{
-          this.followers= response.data.followers.length;}
-        if (response.data.follows==null){
-          this.followed=0;}
-        else{this.followed=response.data.follows.length;}
-        }*/
+    
   }
 };
 </script>

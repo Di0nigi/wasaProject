@@ -22,10 +22,17 @@ func (rt *_router) wrap(fn httpRouterHandler) func(http.ResponseWriter, *http.Re
 			return
 		}
 		authHeader := r.Header.Get("Authorization")
+		errs, user:=rt.db.GetToken(authHeader)
+
+		if errs!= nil {
+			rt.baseLogger.WithError(err).Error("can't generate a request UUID")
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 
 		var ctx = reqcontext.RequestContext{
 			ReqUUID: reqUUID,
-			User:    authHeader,
+			User:    user,
 		}
 
 		// Create a request-specific logger

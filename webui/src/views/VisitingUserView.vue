@@ -108,6 +108,7 @@ import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      tk: localStorage.getItem('token'),
       blKey:0,
       blockState: "eo",
       blkVal: true,
@@ -124,6 +125,7 @@ export default {
       followed:10,
       profilename: 'EO',
       user: localStorage.getItem('username').replace('"', '').replace('"', ''),
+      tempToken:"",
       profileId : this.$route.path.split("/").slice(-1)[0],
     };
   },
@@ -148,7 +150,7 @@ export default {
 
     async ifBlocked(){
       try{
-        const response12 = await this.$axios.get("/userActions/"+this.profileId+"/interactions/manageBan/"+this.user, { headers: {"Authorization" : this.profileId}});
+        const response12 = await this.$axios.get("/userActions/"+this.profileId+"/interactions/manageBan/"+this.user, { headers: {"Authorization" : this.tempToken}});
         console.log(response12);
         this.$router.push({path: '/'+this.user+'/blocked'});
       }
@@ -159,7 +161,7 @@ export default {
     
     async checkBlock(){
       try{
-        const response8 = await this.$axios.get("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.user}});
+        const response8 = await this.$axios.get("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.tk}});
         console.log(response8);
         this.blkVal=false;
       }
@@ -174,7 +176,7 @@ export default {
       if(this.blkVal==false){
         console.log(this.blkVal);
         console.log("Unblock");
-        const response12 = await this.$axios.delete("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.user}});
+        const response12 = await this.$axios.delete("/userActions/"+this.user+"/interactions/manageBan/"+this.profileId, { headers: {"Authorization" : this.tk}});
         console.log(response12);
         this.blockState="Block";
         this.reload();
@@ -183,20 +185,19 @@ export default {
         console.log(this.blkVal);
         console.log("Block");
         console.log(JSON.stringify({idUser: this.profileId}));
-        const response11= await this.$axios.post("/userActions/"+this.user+"/interactions/manageBan",JSON.stringify({idUser: this.profileId}) ,{ headers: {"Authorization" : this.user}});
+        const response11= await this.$axios.post("/userActions/"+this.user+"/interactions/manageBan",JSON.stringify({idUser: this.profileId}) ,{ headers: {"Authorization" : this.tk}});
         console.log(response11);
         this.blockState="Unblock";
         await this.checkFollow();
         if (this.followVal==false){
           console.log("qui"+this.followVal);
-        let response13 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.user}});
+        let response13 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.tk}});
         console.log(response13);
         this.followState="Follow";
          /*this.btKey++;*/
-         this.reload();
         }
         console.log("here should unfollow");
-        let response14 = await this.$axios.delete("/userActions/"+this.profileId+"/interactions/followingActions/"+this.user,{ headers: {"Authorization" : this.profileId}});
+        let response14 = await this.$axios.delete("/userActions/"+this.profileId+"/interactions/followingActions/"+this.user,{ headers: {"Authorization" : this.tempToken}});
         console.log(response14);
         console.log("here should unfollow2");
         this.reload();
@@ -207,7 +208,7 @@ export default {
     },
     async checkFollow(){
       try{
-      const response4 = await this.$axios.get("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId, { headers: {"Authorization" : this.user}});
+      const response4 = await this.$axios.get("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId, { headers: {"Authorization" : this.tk}});
       console.log(response4);
       this.followVal=false;
       console.log("triggered");
@@ -229,7 +230,7 @@ export default {
       if (this.followVal==true){
         await this.checkBlock()
         if (this.blkVal==true){
-        let response9 = await this.$axios.post("/userActions/"+this.user+"/interactions/followingActions", JSON.stringify({idUser: this.profileId}),{ headers: {"Authorization" : this.user}})
+        let response9 = await this.$axios.post("/userActions/"+this.user+"/interactions/followingActions", JSON.stringify({idUser: this.profileId}),{ headers: {"Authorization" : this.tk}})
         console.log(response9);
         this.followState="Unfollow";
         
@@ -237,7 +238,7 @@ export default {
         this.reload();
         }
       else{
-        let response10 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.user}});
+        let response10 = await this.$axios.delete("/userActions/"+this.user+"/interactions/followingActions/"+this.profileId,{ headers: {"Authorization" : this.tk}});
         console.log(response10);
         this.followState="Follow";
         
@@ -252,6 +253,8 @@ export default {
      
   },
     async fetchProfileData() {
+      let response = await this.$axios.post("/session", { idUser: this.profileId})
+      this.tempToken= response.data;
       await this.checkBlock();
       if(this.blkVal==true){
         this.blockState="Block";
@@ -275,7 +278,7 @@ export default {
           console.log("should be Unfollow");
           /*this.btKey++;*/
         }
-        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.profileId, { headers: {"Authorization" : this.profileId}});
+        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.profileId, { headers: {"Authorization" : this.tempToken}});
         console.log(response.data);
         
         this.profilename =response.data.id.idUser;
@@ -291,7 +294,7 @@ export default {
         }
         else{this.followed=response.data.follows.length;}
 
-        const response3 = await this.$axios.get("/userActions/"+this.profileId, { headers: {"Authorization" : this.profileId}});
+        const response3 = await this.$axios.get("/userActions/"+this.profileId, { headers: {"Authorization" : this.tempToken}});
         console.log(response3.data);
         if(response3.data!=null){
           console.log(response3.data.length);

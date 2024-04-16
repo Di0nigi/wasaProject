@@ -28,8 +28,11 @@ export default {
     async submitText() {
       // Handle submission here
       console.log("Text submitted:", this.textFieldValue);
-	  let response = this.$axios.post("/session", { idUser: this.textFieldValue})
+	  let response = await this.$axios.post("/session", { idUser: this.textFieldValue})
+    console.log(response.data);
     localStorage.setItem('username', JSON.stringify(this.textFieldValue));
+    localStorage.setItem('token', response.data);
+
 	  this.$router.push({path: '/'+this.textFieldValue+'/home'})
     }
   }

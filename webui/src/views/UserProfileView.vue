@@ -124,6 +124,7 @@ import { slideShowim } from '../scripts/myStructs.js';
 export default {
   data() {
     return {
+      tk: localStorage.getItem('token'),
       currentDate: null,
       showAlert: false,
       alertMessage: 'USER ALREADY EXISTS!',
@@ -177,7 +178,7 @@ export default {
     async changeUser(){
       if(this.inputText!=""){
       try{
-      const response10 = await this.$axios.post("/userActions/"+this.user,JSON.stringify({idUser: this.inputText}),{ headers: {"Authorization" : this.user}});
+      const response10 = await this.$axios.post("/userActions/"+this.user,JSON.stringify({idUser: this.inputText}),{ headers: {"Authorization" : this.tk}});
       console.log(response10);
       localStorage.setItem('username', JSON.stringify(this.inputText));
       this.user=localStorage.getItem('username').replace('"', '').replace('"', '');
@@ -193,7 +194,7 @@ export default {
 
     },
     async rightClickDel(photoName){ 
-    const response7= await this.$axios.delete("/userActions/"+this.user+"/photoManager/"+photoName,{ headers: {"Authorization" : this.user}});
+    const response7= await this.$axios.delete("/userActions/"+this.user+"/photoManager/"+photoName,{ headers: {"Authorization" : this.tk}});
     console.log(response7);
     this.reload();
 
@@ -231,7 +232,7 @@ export default {
       const dateString = this.currentDate.getDate() + '-' + (this.currentDate.getMonth() + 1) + '-' +  this.currentDate.getFullYear();
       console.log("this is the date:");
       console.log(dateString);
-      const response2 = await this.$axios.post("/userActions/"+this.user+"/photoManager",JSON.stringify({idPhoto: { idObj: this.randomString }, owner: {idUser: this.user}, image: this.binaryIm, likes: 0, comments: null, numComments: 0, Date: dateString}),{ headers: {"Authorization" : this.user}});
+      const response2 = await this.$axios.post("/userActions/"+this.user+"/photoManager",JSON.stringify({idPhoto: { idObj: this.randomString }, owner: {idUser: this.user}, image: this.binaryIm, likes: 0, comments: null, numComments: 0, Date: dateString}),{ headers: {"Authorization" : this.tk}});
       console.log("here");
       console.log(response2);
       this.reload();
@@ -263,7 +264,7 @@ export default {
     async fetchProfileData() {
       try {
         this.$router.push({path:'/'+this.user+'/profile'});
-        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.user, { headers: {"Authorization" : this.user}});
+        const response = await this.$axios.get("/userActions/"+this.user+"/interactions/Profile/"+this.user, { headers: {"Authorization" : this.tk}});
         console.log(response.data);
         //this.profileData.id = response.data.id.userId*/
         this.profilename =localStorage.getItem('username').replace('"', '').replace('"', '');
@@ -280,7 +281,7 @@ export default {
         }
         else{this.followed=response.data.follows.length;}
 
-        const response3 = await this.$axios.get("/userActions/"+this.user, { headers: {"Authorization" : this.user}});
+        const response3 = await this.$axios.get("/userActions/"+this.user, { headers: {"Authorization" : this.tk}});
         console.log(response3.data);
         if(response3.data!=null){
           console.log(response3.data.length);
