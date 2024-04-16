@@ -22,9 +22,9 @@ func (rt *_router) wrap(fn httpRouterHandler) func(http.ResponseWriter, *http.Re
 			return
 		}
 		authHeader := r.Header.Get("Authorization")
-		errs, user:=rt.db.GetToken(authHeader)
+		errs, user := rt.db.GetToken(authHeader)
 
-		if errs!= nil {
+		if errs != nil {
 			rt.baseLogger.WithError(err).Error("can't generate a request UUID")
 			w.WriteHeader(http.StatusInternalServerError)
 			return

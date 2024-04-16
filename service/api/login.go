@@ -31,14 +31,14 @@ func (rt *_router) logIn(w http.ResponseWriter, r *http.Request, ps httprouter.P
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-	}else{
+	} else {
 		err, tk = rt.db.GetUserToken(User.IDUser)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
-	jsontk ,errs:=json.Marshal(tk)
+	jsontk, errs := json.Marshal(tk)
 	if errs != nil {
 		http.Error(w, errs.Error(), http.StatusInternalServerError)
 		return

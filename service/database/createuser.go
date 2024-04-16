@@ -1,18 +1,20 @@
 package database
 
-import ("crypto/rand"
-"encoding/base64")
+import (
+	"crypto/rand"
+	"encoding/base64"
+)
 
 func (db *appdbimpl) CreateUser(id string) (error, string) {
-	tk, err:=generateRandomString(16)
-	if err!=nil{
+	tk, err := generateRandomString(16)
+	if err != nil {
 		return err, tk
 	}
 	_, err = db.c.Exec("INSERT INTO Users (UserId) VALUES (?)", id)
-	if err!=nil{
+	if err != nil {
 		return err, tk
 	}
-	
+
 	_, err = db.c.Exec("INSERT INTO Tokens (token, UserId) VALUES (?,?)", tk, id)
 	return err, tk
 }

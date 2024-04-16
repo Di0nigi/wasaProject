@@ -58,8 +58,8 @@ type AppDatabase interface {
 	GetLike(string, string) (error, Like)
 	GetFollower(string, string) (error, UserId)
 	GetBanned(string, string) (error, UserId)
-	GetToken(string)(error,string)
-	GetUserToken(string)(error,string)
+	GetToken(string) (error, string)
+	GetUserToken(string) (error, string)
 	/*GetComment(id api.ObjId)(api.Comment, error)
 	GetBlocked(id api.UserId)(api.User, error)
 	GetImage(id api.ObjId)(api.PostedImage, error)
@@ -105,13 +105,12 @@ func New(db *sql.DB) (AppDatabase, error) {
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
-	query =`INSERT INTO Tokens (token, UserId) SELECT ?, ? WHERE NOT EXISTS (
+	query = `INSERT INTO Tokens (token, UserId) SELECT ?, ? WHERE NOT EXISTS (
 		SELECT 1 FROM Tokens WHERE token = ? AND UserId = ? );`
-	_, err = db.Exec(query, "","","","")
+	_, err = db.Exec(query, "", "", "", "")
 	if err != nil {
 		return nil, fmt.Errorf("error creating database structure: %w", err)
 	}
-
 
 	query = `CREATE TABLE IF NOT EXISTS BlockedUsers (tableId INTEGER PRIMARY KEY AUTOINCREMENT, UserId TEXT, BlockedBy TEXT);`
 	_, err = db.Exec(query)
